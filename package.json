@@ -5,6 +5,9 @@
   "repository": "git@github.com:yktakaha4/kintone-form-model-generator.git",
   "author": "Yuuki Takahashi <20282867+yktakaha4@users.noreply.github.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "@kintone/rest-api-client": "^2.0.31"
   },
