@@ -1,5 +1,9 @@
 # kintone-form-model-generator
 
+## Prerequirements
+
+- Node.js
+
 ## Usage
 
 ```sh
@@ -31,6 +35,8 @@ Specify detailed behavior by `--config` option.
 kintone-form-model-generator generate --config=config.json
 ```
 
+Example.
+
 ```json
 {
   "modelNaming": "AppName"
@@ -53,6 +59,8 @@ https://github.com/kintone/js-sdk/tree/master/packages/rest-api-client#parameter
 ```sh
 kintone-form-model-generator generate --client-config=client-config.json
 ```
+
+Example.
 
 ```json
 {
