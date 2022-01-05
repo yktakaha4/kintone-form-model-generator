@@ -39,14 +39,16 @@ Example.
 
 ```json
 {
+  "outDir": "dist/",
   "modelNaming": "AppName"
 }
 ```
 
 | Name | Type | Default | Description |
 | ---- | ---- | ---- | ---- |
-| modelNaming | String | AppId | `AppId` or `AppName` |
-| propertyNaming | String | Code | `Code` or `PropertyName` |
+| outDir | String | `out/` | Output directory |
+| modelNaming | String | `AppId` | `AppId` or `AppName` |
+| propertyNaming | String | `Code` | `Code` or `PropertyName` |
 
 ### Client configuration
 
