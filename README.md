@@ -29,7 +29,7 @@ npx yktakaha4/kintone-form-model-generator generate
 
 ### Configuration
 
-Specify detailed behavior by `--config` option.
+Specify detailed behavior by `--config` option. (Must be `utf-8` encoding)
 
 ```sh
 kintone-form-model-generator generate --config=config.json
@@ -48,11 +48,11 @@ Example.
 | ---- | ---- | ---- | ---- |
 | outDir | String | `out/` | Output directory |
 | modelNaming | String | `AppId` | `AppId` or `AppName` |
-| propertyNaming | String | `Code` | `Code` or `PropertyName` |
+| propertyNaming | String | `Code` | `Code` or `Label` |
 
 ### Client configuration
 
-Specify the connection to Kintone API with `--client-config` option.
+Specify the connection to Kintone API with `--client-config` option. (Must be `utf-8` encoding)
 
 See more details.
 
