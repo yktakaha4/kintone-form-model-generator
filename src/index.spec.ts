@@ -64,13 +64,19 @@ describe("yatteiki", () => {
           undefined,
           f.createNamedImports([
             f.createImportSpecifier(false, undefined, idTypeIdentifier),
+            f.createImportSpecifier(false, undefined, subtableIdentifier),
+            f.createImportSpecifier(
+              false,
+              undefined,
+              singleLineTextFieldIdentifier
+            ),
           ])
         ),
         fieldImportStringLiteral
       ),
       f.createInterfaceDeclaration(
         undefined,
-        undefined,
+        [f.createToken(ts.SyntaxKind.ExportKeyword)],
         interfaceNameIdentifier,
         undefined,
         undefined,
