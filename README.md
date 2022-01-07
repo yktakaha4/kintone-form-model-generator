@@ -40,15 +40,15 @@ Example.
 ```json
 {
   "outDir": "dist/",
-  "modelNaming": "AppName"
+  "modelNaming": "appName"
 }
 ```
 
 | Name | Type | Default | Description |
 | ---- | ---- | ---- | ---- |
 | outDir | String | `out/` | Output directory |
-| modelNaming | String | `AppId` | `AppId` or `AppName` |
-| propertyNaming | String | `Code` | `Code` or `Label` |
+| modelNaming | String | `appId` | `appId` or `appName` |
+| propertyNaming | String | `code` | `code` or `label` |
 
 ### Client configuration
 
