@@ -13,7 +13,8 @@
     "fix": "run-s fix:*",
     "fix:prettier": "prettier -w .",
     "fix:eslint": "npm run lint:eslint --fix",
-    "test": "jest"
+    "test": "jest --runInBand",
+    "dev": "ts-node ./src/entrypoint.ts"
   },
   "dependencies": {
     "@kintone/rest-api-client": "^2.0.31",

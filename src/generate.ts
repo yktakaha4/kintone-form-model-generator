@@ -85,7 +85,6 @@ export const generate = async ({
       const field = properties[code];
 
       const { type, label } = field;
-      fieldTypes.add(type);
 
       let propertyName: string;
       if (config.propertyNaming === "label" && label) {
@@ -107,43 +106,43 @@ export const generate = async ({
 
       if (type === "SUBTABLE") {
         // For each property in subtable field
-        const inSubtableNodes: Array<ts.TypeNode> = [];
+        const inSubtablePropertySignatures: Array<ts.PropertySignature> = [];
         for (const inSubtableCode of Object.keys(field.fields)) {
           const inSubtableField = field.fields[inSubtableCode];
           const { type: inSubtableType, label: inSubtableLabel } =
             inSubtableField;
-
-          fieldTypes.add(inSubtableType);
 
           const inSubtablePropertyName =
             config.propertyNaming === "label"
               ? inSubtableLabel
               : inSubtableCode;
 
-          inSubtableNodes.push(
-            f.createTypeLiteralNode([
-              f.createPropertySignature(
-                undefined,
-                f.createStringLiteral(inSubtablePropertyName),
-                undefined,
-                f.createTypeReferenceNode(f.createIdentifier(inSubtableType))
-              ),
-            ])
+          fieldTypes.add(simpleTypeMappings[inSubtableType]);
+          inSubtablePropertySignatures.push(
+            f.createPropertySignature(
+              undefined,
+              f.createStringLiteral(inSubtablePropertyName),
+              undefined,
+              f.createTypeReferenceNode(
+                f.createIdentifier(simpleTypeMappings[inSubtableType])
+              )
+            )
           );
         }
 
+        fieldTypes.add(customTypeMappings.SUBTABLE);
         propertyElements.push(
           f.createPropertySignature(
             undefined,
             f.createStringLiteral(propertyName),
             undefined,
-            f.createTypeReferenceNode(
-              customTypeMappings.SUBTABLE,
-              inSubtableNodes
-            )
+            f.createTypeReferenceNode(customTypeMappings.SUBTABLE, [
+              f.createTypeLiteralNode(inSubtablePropertySignatures),
+            ])
           )
         );
       } else if (simpleTypeMappings[type]) {
+        fieldTypes.add(simpleTypeMappings[type]);
         propertyElements.push(
           f.createPropertySignature(
             undefined,
