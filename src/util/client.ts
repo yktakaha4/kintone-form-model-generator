@@ -1,7 +1,6 @@
 import { KintoneRestAPIClient } from "@kintone/rest-api-client";
 import { App } from "@kintone/rest-api-client/lib/client/types/app";
-import { PathLike } from "fs";
-import { readFile } from "fs/promises";
+import { PathLike, readFileSync } from "fs";
 import { env } from "process";
 
 const encoding = "utf-8";
@@ -27,7 +26,7 @@ export class Client {
     const limit = 100;
     let offset = 0;
     let allApps: Array<App> = [];
-    while (true) {
+    while (offset < Number.MAX_SAFE_INTEGER) {
       const { apps } = await this.client.app.getApps({
         ids: params?.ids,
         offset: offset * limit,
@@ -54,7 +53,7 @@ export class Client {
 export const createClientConfig = async (clientConfigPath?: PathLike) => {
   let clientConfig: ClientConfig = {};
   if (clientConfigPath) {
-    clientConfig = JSON.parse(await readFile(clientConfigPath, encoding));
+    clientConfig = JSON.parse(readFileSync(clientConfigPath, encoding));
   }
 
   const { KINTONE_BASE_URL, KINTONE_USERNAME, KINTONE_PASSWORD } = env;

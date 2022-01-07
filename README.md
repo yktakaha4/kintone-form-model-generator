@@ -4,72 +4,77 @@
 
 - Node.js
 
-## Usage
+## Install
 
 ```sh
 # Install
 npm install -g yktakaha4/kintone-form-model-generator
+```
 
-# Specify secrets
-export KINTONE_BASE_URL=https://your-domain.cybozu.com
-export KINTONE_USERNAME=your-username
-export KINTONE_PASSWORD=your-password
+## Usage
 
+### Generate
+
+```sh
 # Generate all models
 kintone-form-model-generator generate
 
 # Specify app ids
 kintone-form-model-generator generate --app-ids=1,5,10
-
-# If you don't want to install
-npx yktakaha4/kintone-form-model-generator generate
 ```
 
 ## Configuration
 
+### Environments variables
+
+Specify secrets in the environment variables.
+
+| Name             | Description                                             |
+| ---------------- | ------------------------------------------------------- |
+| KINTONE_BASE_URL | URL for kintone (ex. `https://your-domain.cybozu.com` ) |
+| KINTONE_USERNAME | Kintone username                                        |
+| KINTONE_PASSWORD | Kintone apssword                                        |
+
 ### Configuration
 
-Specify detailed behavior by `--config` option. (Must be `utf-8` encoding)
+Specify detailed behavior by `--config` or `-c` option. (Must be `utf-8` encoded JSON file.)
 
 ```sh
 kintone-form-model-generator generate --config=config.json
 ```
 
-Example.
+| Name                              | Type   | Default   | Description                                             |
+| --------------------------------- | ------ | --------- | ------------------------------------------------------- |
+| outDir                            | String | `out/`    | Output directory                                        |
+| modelNaming                       | String | `appName` | `appName` or `appId` or `appCode`                       |
+| modelNamePrefix                   | String | `Kintone` | `modelNamingPrefix` or `modelNamingSuffix` is required. |
+| modelNameSuffix                   | String | `Record`  | `modelNamingPrefix` or `modelNamingSuffix` is required. |
+| modelNamingDuplicationStrategy    | String | `error`   | `error` or `overwrite`                                  |
+| propertyNaming                    | String | `code`    | `code` or `label`                                       |
+| propertyNamingDuplicationStrategy | String | `error`   | `error` or `overwrite`                                  |
 
 ```json
 {
   "outDir": "dist/",
-  "modelNaming": "appName"
+  "modelNaming": "appId"
 }
 ```
 
-| Name           | Type   | Default | Description          |
-| -------------- | ------ | ------- | -------------------- |
-| outDir         | String | `out/`  | Output directory     |
-| modelNaming    | String | `appId` | `appId` or `appName` |
-| propertyNaming | String | `code`  | `code` or `label`    |
+### Kintone API configuration
 
-### Client configuration
+Specify the connection to Kintone API with `--kintone-config` or `-k` option. (Must be `utf-8` encoded JSON file.)
 
-Specify the connection to Kintone API with `--client-config` option. (Must be `utf-8` encoding)
-
-See more details.
-
-https://github.com/kintone/js-sdk/tree/master/packages/rest-api-client#parameters-for-kintonerestapiclient
+See more details in [@kintone/rest-api-client](https://github.com/kintone/js-sdk/tree/master/packages/rest-api-client#parameters-for-kintonerestapiclient) repository.
 
 ```sh
-kintone-form-model-generator generate --client-config=client-config.json
+kintone-form-model-generator generate --kintone-config=kintone-config.json
 ```
-
-Example.
 
 ```json
 {
   "baseUrl": "https://your-domain.cybozu.com",
   "auth": {
-    "username": "your-username",
-    "password": "your-password"
+    "apiToken": "your-api-token"
   }
 }
 ```
