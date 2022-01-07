@@ -1,7 +1,7 @@
 import { Client, ClientConfig } from "./util/client";
 import { Config } from "./util/config";
 import ts, { factory as f } from "typescript";
-import { stringer } from "./util/ast";
+import { sanitizeInterfaceName, stringer } from "./util/ast";
 
 const kintoneFieldImportPath =
   "@kintone/rest-api-client/lib/KintoneFields/types/field";
@@ -53,7 +53,6 @@ export const generate = async ({
   const client = new Client(clientConfig);
 
   // get app
-  // TODO: check app id exists
   const apps = await client.getApps({ ids: params.appIds });
 
   // generate
@@ -96,10 +95,13 @@ export const generate = async ({
       }
 
       if (propertyNames.has(propertyName)) {
-        // TODO: considering duplicates
-        console.warn(
-          `duplicate: appId=${appId}, code=${code}, propertyName=${propertyName}`
-        );
+        const message = `duplicate: appId=${appId}, code=${code}, propertyName=${propertyName}`;
+        if (config.propertyNamingDuplicationStrategy === "overwrite") {
+          // TODO: logging
+          console.warn(message);
+        } else {
+          throw new Error(message);
+        }
       }
       propertyNames.add(propertyName);
 
@@ -162,24 +164,26 @@ export const generate = async ({
     } else if (config.modelNaming === "appCode") {
       interfaceName = appCode;
     } else {
-      interfaceName = appId;
+      interfaceName = `AppId${appId}`;
     }
 
-    // TODO: escape interface name
-    const cleanedInterfaceName = interfaceName;
-    if (interfaceNames.has(cleanedInterfaceName)) {
-      // TODO: considering duplicates
-      console.warn(
-        `duplicate: appId=${appId}, cleanedInterfaceName=${cleanedInterfaceName}`
-      );
+    const sanitizedInterfaceName = sanitizeInterfaceName(interfaceName);
+    if (interfaceNames.has(sanitizedInterfaceName)) {
+      const message = `duplicate: appId=${appId}, sanitizedInterfaceName=${sanitizedInterfaceName}`;
+      if (config.modelNamingDuplicationStrategy === "overwrite") {
+        // TODO: logging
+        console.warn(message);
+      } else {
+        throw new Error(message);
+      }
     }
-    interfaceNames.add(cleanedInterfaceName);
+    interfaceNames.add(sanitizedInterfaceName);
 
     interfaceNodes.push(
       f.createInterfaceDeclaration(
         undefined,
         [f.createToken(ts.SyntaxKind.ExportKeyword)],
-        f.createIdentifier(cleanedInterfaceName),
+        f.createIdentifier(sanitizedInterfaceName),
         undefined,
         undefined,
         propertyElements
