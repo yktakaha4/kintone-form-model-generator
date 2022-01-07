@@ -165,6 +165,7 @@ export const generate = async ({
       interfaceName = appId;
     }
 
+    // TODO: escape interface name
     const cleanedInterfaceName = interfaceName;
     if (interfaceNames.has(cleanedInterfaceName)) {
       // TODO: considering duplicates
