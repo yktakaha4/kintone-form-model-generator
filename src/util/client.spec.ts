@@ -1,3 +1,4 @@
+import { join } from "path";
 import { Record } from "@kintone/rest-api-client/lib/client/types";
 import {
   ID,
@@ -26,6 +27,7 @@ import {
   Status,
   StatusAssignee,
 } from "@kintone/rest-api-client/lib/KintoneFields/types/field";
+import { createClientConfig } from "./client";
 
 interface FieldTestInterface extends Record {
   IdField: ID;
@@ -192,5 +194,13 @@ describe("Import", () => {
       },
     };
     expect(record.IdField.value).toBeTruthy;
+  });
+});
+
+describe("createClientConfig", () => {
+  test("read config file", () => {
+    const filePath = join(__dirname, "..", "__tests__", "kintone-config.json");
+    const config = createClientConfig(filePath);
+    expect(config.auth?.username).toBe("ユーザー名");
   });
 });

@@ -52,7 +52,7 @@ export class Client {
   }
 }
 
-export const createClientConfig = async (clientConfigPath?: PathLike) => {
+export const createClientConfig = (clientConfigPath?: PathLike) => {
   let clientConfig: ClientConfig = {};
   if (clientConfigPath) {
     clientConfig = JSON.parse(readFileSync(clientConfigPath, encoding));
