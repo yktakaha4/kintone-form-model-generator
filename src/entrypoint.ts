@@ -32,8 +32,8 @@ const entrypoint = async () => {
   const configPath = "";
   const clientConfigPath = "";
 
-  const config = await createConfig(configPath);
-  const clientConfig = await createClientConfig(clientConfigPath);
+  const config = createConfig(configPath);
+  const clientConfig = createClientConfig(clientConfigPath);
 
   if (subcommand === "generate") {
     const params: GenerateParams = {};
