@@ -43,15 +43,15 @@ Specify detailed behavior by `--config` or `-c` option. (Must be `utf-8` encoded
 kintone-form-model-generator generate --config=config.json
 ```
 
-| Name                              | Type   | Default   | Description                                             |
-| --------------------------------- | ------ | --------- | ------------------------------------------------------- |
-| outDir                            | String | `out/`    | Output directory                                        |
-| modelNaming                       | String | `appName` | `appName` or `appId` or `appCode`                       |
-| modelNamePrefix                   | String | `Kintone` | `modelNamingPrefix` or `modelNamingSuffix` is required. |
-| modelNameSuffix                   | String | `Record`  | `modelNamingPrefix` or `modelNamingSuffix` is required. |
-| modelNamingDuplicationStrategy    | String | `error`   | `error` or `overwrite`                                  |
-| propertyNaming                    | String | `code`    | `code` or `label`                                       |
-| propertyNamingDuplicationStrategy | String | `error`   | `error` or `overwrite`                                  |
+| Name                              | Type   | Default   | Description                       |
+| --------------------------------- | ------ | --------- | --------------------------------- |
+| outDir                            | String | `out/`    | Output directory                  |
+| modelNaming                       | String | `appName` | `appName` or `appId` or `appCode` |
+| modelNamePrefix                   | String | `Kintone` | Model name prefix                 |
+| modelNameSuffix                   | String | `Record`  | Model name suffix                 |
+| modelNamingDuplicationStrategy    | String | `error`   | `error` or `overwrite`            |
+| propertyNaming                    | String | `code`    | `code` or `label`                 |
+| propertyNamingDuplicationStrategy | String | `error`   | `error` or `overwrite`            |
 
 ```json
 {
