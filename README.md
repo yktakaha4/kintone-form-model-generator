@@ -44,11 +44,11 @@ Example.
 }
 ```
 
-| Name | Type | Default | Description |
-| ---- | ---- | ---- | ---- |
-| outDir | String | `out/` | Output directory |
-| modelNaming | String | `appId` | `appId` or `appName` |
-| propertyNaming | String | `code` | `code` or `label` |
+| Name           | Type   | Default | Description          |
+| -------------- | ------ | ------- | -------------------- |
+| outDir         | String | `out/`  | Output directory     |
+| modelNaming    | String | `appId` | `appId` or `appName` |
+| propertyNaming | String | `code`  | `code` or `label`    |
 
 ### Client configuration
 

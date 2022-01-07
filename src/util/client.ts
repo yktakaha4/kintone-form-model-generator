@@ -4,7 +4,7 @@ import { PathLike } from "fs";
 import { readFile } from "fs/promises";
 import { env } from "process";
 
-const encoding = "utf-8"
+const encoding = "utf-8";
 
 export interface ClientConfig {
   baseUrl?: string;
