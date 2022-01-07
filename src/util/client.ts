@@ -11,7 +11,9 @@ export interface ClientConfig {
     username: string;
     password: string;
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   basicAuth?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   clientCertAuth?: any;
 }
 

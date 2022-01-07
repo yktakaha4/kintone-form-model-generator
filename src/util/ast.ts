@@ -5,8 +5,20 @@ export const stringer = (nodes: Array<ts.Node>) => {
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
 
   return printer.printList(
-    ts.ListFormat.MultiLineBlockStatements,
+    ts.ListFormat.MultiLine,
     f.createNodeArray(nodes),
     sourceFile
   );
+};
+
+export const sanitizeInterfaceName = (raw: string) => {
+  const prefix = "$";
+  const cleaned = raw.replace(/\s/gs, "").replace(/[!-#%-/:-@[-^`{-~]/gs, "_");
+  if (!cleaned) {
+    return prefix;
+  } else if (/^\d/.test(cleaned)) {
+    return `${prefix}${cleaned}`;
+  } else {
+    return cleaned;
+  }
 };
