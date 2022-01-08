@@ -16,16 +16,17 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
-          registry-url: "https://registry.npmjs.org"
+          registry-url: https://registry.npmjs.org
           always-auth: true
+
+      - uses: phips28/gh-action-bump-version@8d1fb3d7cdc88a2df8252eac3db53d31958b98e7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: yarn install
 
       - run: yarn build
 
-      - name: Publish
-        run: |
-          NEW_PATCH_VERSION=$(npm view --json | jq -r ".version" | awk -F'.' '{print $1"."$2"."$3+1}')
-          yarn publish --access public --tag "$NEW_PATCH_VERSION"
+      - run: yarn publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
