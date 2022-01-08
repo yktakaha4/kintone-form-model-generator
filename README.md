@@ -1,5 +1,7 @@
 # kintone-form-model-generator
 
+Generate type definitions compatible with [@kintone/rest-api-client](https://github.com/kintone/js-sdk/tree/master/packages/rest-api-client#readme)
+
 ## Prerequirements
 
 - Node.js (>=12)
