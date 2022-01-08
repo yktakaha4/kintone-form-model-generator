@@ -8,9 +8,7 @@ export interface Config {
   modelNameMapping?: Record<string, string>;
   modelNamePrefix?: string;
   modelNameSuffix?: string;
-  modelNamingDuplicationStrategy?: "error" | "overwrite";
-  propertyNaming?: "code" | "label";
-  propertyNamingDuplicationStrategy?: "error" | "overwrite";
+  modelNamingDuplicationStrategy?: "error" | "overwrite" | "uniquifyWithAppId";
 }
 
 export const createConfig = (configPath?: PathLike) => {
@@ -26,9 +24,6 @@ export const createConfig = (configPath?: PathLike) => {
   if (config.modelNameSuffix == null) config.modelNameSuffix = "Record";
   if (!config.modelNamingDuplicationStrategy)
     config.modelNamingDuplicationStrategy = "error";
-  if (!config.propertyNaming) config.propertyNaming = "code";
-  if (!config.propertyNamingDuplicationStrategy)
-    config.propertyNamingDuplicationStrategy = "error";
 
   return config;
 };

@@ -97,21 +97,11 @@ export const generate = async ({
 
       const { type, label } = field;
 
-      let propertyName: string;
-      if (config.propertyNaming === "label" && label) {
-        propertyName = label;
-      } else {
-        propertyName = code;
-      }
-
+      const propertyName = code;
       if (propertyNames.has(propertyName)) {
-        const message = `duplicate: appId=${appId}, code=${code}, propertyName=${propertyName}`;
-        if (config.propertyNamingDuplicationStrategy === "overwrite") {
-          // TODO: logging
-          console.warn(message);
-        } else {
-          throw new Error(message);
-        }
+        throw new Error(
+          `duplicate: appId=${appId}, code=${code}, propertyName=${propertyName}`
+        );
       }
       propertyNames.add(propertyName);
 
@@ -124,17 +114,12 @@ export const generate = async ({
             inSubtableField;
 
           if (simpleTypeMappings[inSubtableType]) {
-            const inSubtablePropertyName =
-              config.propertyNaming === "label"
-                ? inSubtableLabel
-                : inSubtableCode;
-
             fieldTypes.add(simpleTypeMappings[inSubtableType]);
             inSubtablePropertySignatures.push(
               withJSDocComments(
                 f.createPropertySignature(
                   undefined,
-                  f.createStringLiteral(inSubtablePropertyName),
+                  f.createStringLiteral(inSubtableCode),
                   undefined,
                   f.createTypeReferenceNode(
                     f.createIdentifier(simpleTypeMappings[inSubtableType])
@@ -187,6 +172,7 @@ export const generate = async ({
       }
     }
 
+    const appIdName = `App${appId}`;
     let interfaceName: string;
     if (config.modelNameMapping && config.modelNameMapping[appId]) {
       interfaceName = config.modelNameMapping[appId];
@@ -195,7 +181,7 @@ export const generate = async ({
     } else if (config.modelNaming === "appCode") {
       interfaceName = appCode;
     } else {
-      interfaceName = `App${appId}`;
+      interfaceName = appIdName;
     }
 
     if (config.modelNamePrefix) {
@@ -205,24 +191,36 @@ export const generate = async ({
       interfaceName = interfaceName + config.modelNameSuffix;
     }
 
-    const sanitizedInterfaceName = sanitizeInterfaceName(interfaceName);
-    if (interfaceNames.has(sanitizedInterfaceName)) {
-      const message = `duplicate: appId=${appId}, sanitizedInterfaceName=${sanitizedInterfaceName}`;
+    interfaceName = sanitizeInterfaceName(interfaceName);
+    if (interfaceNames.has(interfaceName)) {
       if (config.modelNamingDuplicationStrategy === "overwrite") {
         // TODO: logging
-        console.warn(message);
+        console.warn(
+          `duplicate: appId=${appId}, interfaceName=${interfaceName}`
+        );
+      } else if (
+        config.modelNamingDuplicationStrategy === "uniquifyWithAppId"
+      ) {
+        interfaceName = sanitizeInterfaceName(interfaceName + appIdName);
+        if (interfaceNames.has(interfaceName)) {
+          throw new Error(
+            `duplicate: appId=${appId}, interfaceName=${interfaceName}`
+          );
+        }
       } else {
-        throw new Error(message);
+        throw new Error(
+          `duplicate: appId=${appId}, interfaceName=${interfaceName}`
+        );
       }
     }
-    interfaceNames.add(sanitizedInterfaceName);
+    interfaceNames.add(interfaceName);
 
     interfaceNodes.push(
       withJSDocComments(
         f.createInterfaceDeclaration(
           undefined,
           [f.createToken(ts.SyntaxKind.ExportKeyword)],
-          f.createIdentifier(sanitizedInterfaceName),
+          f.createIdentifier(interfaceName),
           undefined,
           undefined,
           propertyElements
