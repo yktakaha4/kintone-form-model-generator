@@ -384,49 +384,27 @@ export const generate = async ({
 
             // for parameter
             if (simpleParameterTypeMappings[inSubtableType]) {
-              if (parameterInSubtablePropertySignatures.length === 0) {
-                parameterInSubtablePropertySignatures.push(
-                  withJSDocComments(
-                    f.createPropertySignature(
-                      undefined,
-                      f.createIdentifier("id"),
-                      undefined,
-                      f.createTypeReferenceNode("string")
-                    ),
-                    ["id", "@type string"]
-                  )
-                );
-              }
               parameterInSubtablePropertySignatures.push(
-                f.createPropertySignature(
-                  undefined,
-                  f.createIdentifier("value"),
-                  undefined,
-                  f.createTypeLiteralNode([
-                    withJSDocComments(
+                withJSDocComments(
+                  f.createPropertySignature(
+                    undefined,
+                    f.createStringLiteral(inSubtableCode),
+                    f.createToken(ts.SyntaxKind.QuestionToken),
+                    f.createTypeLiteralNode([
                       f.createPropertySignature(
                         undefined,
-                        f.createStringLiteral(inSubtableCode),
-                        f.createToken(ts.SyntaxKind.QuestionToken),
-                        f.createTypeLiteralNode([
-                          f.createPropertySignature(
-                            undefined,
-                            f.createIdentifier("value"),
-                            undefined,
-                            f.createTypeReferenceNode(
-                              f.createIdentifier("string")
-                            )
-                          ),
-                        ])
+                        f.createIdentifier("value"),
+                        undefined,
+                        f.createTypeReferenceNode(f.createIdentifier("string"))
                       ),
-                      [
-                        inSubtableLabel,
-                        inSubtableCode,
-                        inSubtableType,
-                        `@type ${simpleTypeMappings[inSubtableType]}`,
-                      ]
-                    ),
-                  ])
+                    ])
+                  ),
+                  [
+                    inSubtableLabel,
+                    inSubtableCode,
+                    inSubtableType,
+                    `@type ${simpleTypeMappings[inSubtableType]}`,
+                  ]
                 )
               );
             } else {
@@ -469,9 +447,25 @@ export const generate = async ({
                   f.createIdentifier("value"),
                   undefined,
                   f.createArrayTypeNode(
-                    f.createTypeLiteralNode(
-                      parameterInSubtablePropertySignatures
-                    )
+                    f.createTypeLiteralNode([
+                      withJSDocComments(
+                        f.createPropertySignature(
+                          undefined,
+                          f.createIdentifier("id"),
+                          undefined,
+                          f.createTypeReferenceNode("string")
+                        ),
+                        ["id", "@type string"]
+                      ),
+                      f.createPropertySignature(
+                        undefined,
+                        f.createIdentifier("value"),
+                        undefined,
+                        f.createTypeLiteralNode(
+                          parameterInSubtablePropertySignatures
+                        )
+                      ),
+                    ])
                   )
                 ),
               ])
