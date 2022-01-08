@@ -1,4 +1,9 @@
-import { sanitizeInterfaceName, stringer } from "./ast";
+import {
+  createHeaderComment,
+  sanitizeInterfaceName,
+  stringer,
+  withJSDocComments,
+} from "./ast";
 import ts, { factory as f } from "typescript";
 
 describe("stringer", () => {
@@ -92,5 +97,55 @@ describe("sanitizeInterfaceName", () => {
     expect(sanitizeInterfaceName("Hello@world")).toBe("Hello_world");
     expect(sanitizeInterfaceName("_MyAwesomeRecord")).toBe("_MyAwesomeRecord");
     expect(sanitizeInterfaceName("$MyAwesomeRecord")).toBe("$MyAwesomeRecord");
+  });
+});
+
+describe("createHeaderComment", () => {
+  test("export comments", () => {
+    const comments = createHeaderComment();
+    expect(stringer(comments)).toContain("tslint:disable");
+  });
+});
+
+describe("withJSDocComments", () => {
+  test("commented model exported", () => {
+    const nodes = [
+      withJSDocComments(
+        f.createInterfaceDeclaration(
+          undefined,
+          [f.createToken(ts.SyntaxKind.ExportKeyword)],
+          f.createIdentifier("MyIF"),
+          undefined,
+          undefined,
+          [
+            withJSDocComments(
+              f.createPropertySignature(
+                undefined,
+                f.createIdentifier("myField"),
+                undefined,
+                f.createTypeReferenceNode("string")
+              ),
+              ["comment of myField"]
+            ),
+          ]
+        ),
+        ["comment of MyIF", "I love Kintone."]
+      ),
+    ];
+
+    expect(stringer(nodes)).toBe(
+      `
+/**
+* comment of MyIF
+* I love Kintone.
+*/
+export interface MyIF {
+    /**
+    * comment of myField
+    */
+    myField: string;
+}
+`.trimStart()
+    );
   });
 });
