@@ -4,6 +4,7 @@
   "main": "index.js",
   "repository": "git@github.com:yktakaha4/kintone-form-model-generator.git",
   "author": "Yuuki Takahashi <20282867+yktakaha4@users.noreply.github.com>",
+  "homepage": "https://github.com/yktakaha4/kintone-form-model-generator",
   "license": "MIT",
   "scripts": {
     "lint": "run-p lint:*",

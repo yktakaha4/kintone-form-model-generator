@@ -1,7 +1,11 @@
 import { Client, ClientConfig } from "./util/client";
 import { Config } from "./util/config";
 import ts, { factory as f } from "typescript";
-import { sanitizeInterfaceName, stringer } from "./util/ast";
+import {
+  createHeaderComment,
+  sanitizeInterfaceName,
+  stringer,
+} from "./util/ast";
 
 const kintoneFieldImportPath =
   "@kintone/rest-api-client/lib/KintoneFields/types/field";
@@ -221,5 +225,9 @@ export const generate = async ({
     fieldImportStringLiteral
   );
 
-  return stringer([importDeclaration, ...interfaceNodes]);
+  return stringer([
+    ...createHeaderComment(),
+    importDeclaration,
+    ...interfaceNodes,
+  ]);
 };
