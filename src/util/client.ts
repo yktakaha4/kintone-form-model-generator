@@ -19,11 +19,14 @@ export interface ClientConfig {
   clientCertAuth?: any;
 }
 
+const createKintoneRestAPIClient = (config: ClientConfig) =>
+  new KintoneRestAPIClient(config);
+
 export class Client {
   private readonly client: KintoneRestAPIClient;
 
   constructor(config: ClientConfig) {
-    this.client = new KintoneRestAPIClient(config);
+    this.client = createKintoneRestAPIClient(config);
   }
 
   async getApps(params?: { ids?: Array<string> }) {

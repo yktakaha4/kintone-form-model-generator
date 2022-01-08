@@ -1,14 +1,23 @@
 import ts, { addSyntheticLeadingComment, factory as f } from "typescript";
 import p from "../../package.json";
 
+const unescape = (s: string) => {
+  return s.replace(/\\u([a-fA-F0-9]{4})/g, (_, g) => {
+    return String.fromCharCode(parseInt(g, 16));
+  });
+};
+
 export const stringer = (nodes: Array<ts.Node>) => {
   const sourceFile = ts.createSourceFile("", "", ts.ScriptTarget.Latest);
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
 
-  return printer.printList(
-    ts.ListFormat.MultiLine,
-    f.createNodeArray(nodes),
-    sourceFile
+  // https://github.com/microsoft/TypeScript/issues/36174
+  return unescape(
+    printer.printList(
+      ts.ListFormat.MultiLine,
+      f.createNodeArray(nodes),
+      sourceFile
+    )
   );
 };
 
