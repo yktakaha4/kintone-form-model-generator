@@ -19,7 +19,7 @@ npm install -g yktakaha4/kintone-form-model-generator
 # Generate all models
 kintone-form-model-generator generate
 
-# Specify app ids
+# Specify app ids (or -a option)
 kintone-form-model-generator generate --app-ids=1,5,10
 ```
 
