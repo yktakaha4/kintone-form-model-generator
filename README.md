@@ -23,6 +23,51 @@ kintone-form-model-generator generate
 kintone-form-model-generator generate --app-ids=1,5,10
 ```
 
+By default, files are generated in the `out/` directory.
+
+An example of `out/index.ts` .
+
+```ts:index.ts
+import { ID, Revision } from "@kintone/rest-api-client/lib/KintoneFields/types/field";
+/**
+ * KintoneApp1Record
+ * My Awesome App
+ * id: 1
+ * revision: 1
+ * @see https://your-domain.cybozu.com/k/1/
+ */
+export interface KintoneApp1Record {
+  /**
+   * ID
+   * @type ID
+   */
+  __ID__: ID;
+  /**
+   * Revision
+   * @type Revision
+   */
+  __REVISION__: Revision;
+
+  /**
+   * チェックボックス
+   * @type CheckBox
+   */
+  チェックボックス: CheckBox;
+  /**
+   * テーブル
+   * @type Subtable
+   */
+  テーブル: Subtable<{
+    /**
+     * 文字列 (1行)
+     * 文字列__1行__Table
+     * @type SingleLineText
+     */
+    文字列__1行__Table: SingleLineText;
+  }>;
+}
+```
+
 ## Configuration
 
 ### Environments variables
