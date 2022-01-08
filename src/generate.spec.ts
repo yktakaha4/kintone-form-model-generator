@@ -191,6 +191,7 @@ const actual = `
  * Don\`t edit this file manually.
  * @see ${p.homepage}
  */
+import { Record } from "@kintone/rest-api-client/lib/client/types";
 import { Calc, Category, CheckBox, CreatedTime, Creator, Date, DateTime, Dropdown, File, GroupSelect, ID, Link, Modifier, MultiLineText, MultiSelect, Number, OrganizationSelect, RadioButton, RecordNumber, Revision, RichText, SingleLineText, Status, StatusAssignee, Subtable, Time, UpdatedTime, UserSelect } from "@kintone/rest-api-client/lib/KintoneFields/types/field";
 /**
 * KintoneApp54Record
@@ -199,7 +200,7 @@ import { Calc, Category, CheckBox, CreatedTime, Creator, Date, DateTime, Dropdow
 * revision: 4
 * @see ${dummyBaseUrl}/k/54/
 */
-export interface KintoneApp54Record {
+export interface KintoneApp54Record extends Record {
     /**
     * ID
     * @type ID

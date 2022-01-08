@@ -12,6 +12,8 @@ import { getLogger } from "log4js";
 const logger = getLogger();
 const cliLogger = getLogger("cli");
 
+const kintoneRecordImportPath = "@kintone/rest-api-client/lib/client/types";
+const kintoneRecordTypeName = "Record";
 const kintoneFieldImportPath =
   "@kintone/rest-api-client/lib/KintoneFields/types/field";
 const simpleTypeMappings: Record<string, string> = {
@@ -243,7 +245,14 @@ export const generate = async ({
           [f.createToken(ts.SyntaxKind.ExportKeyword)],
           f.createIdentifier(interfaceName),
           undefined,
-          undefined,
+          [
+            f.createHeritageClause(ts.SyntaxKind.ExtendsKeyword, [
+              f.createExpressionWithTypeArguments(
+                f.createIdentifier(kintoneRecordTypeName),
+                undefined
+              ),
+            ]),
+          ],
           propertyElements
         ),
         [
@@ -259,9 +268,6 @@ export const generate = async ({
   }
 
   // import definition
-  const fieldImportStringLiteral = f.createStringLiteral(
-    kintoneFieldImportPath
-  );
   const importSpecifiers: Array<ts.ImportSpecifier> = [];
   for (const fieldType of Array.from(fieldTypes).sort()) {
     importSpecifiers.push(
@@ -269,20 +275,38 @@ export const generate = async ({
     );
   }
 
-  const importDeclaration = ts.factory.createImportDeclaration(
-    undefined,
-    undefined,
-    f.createImportClause(
-      false,
+  const importDeclarations = [
+    ts.factory.createImportDeclaration(
       undefined,
-      f.createNamedImports(importSpecifiers)
+      undefined,
+      f.createImportClause(
+        false,
+        undefined,
+        f.createNamedImports([
+          f.createImportSpecifier(
+            false,
+            undefined,
+            f.createIdentifier(kintoneRecordTypeName)
+          ),
+        ])
+      ),
+      f.createStringLiteral(kintoneRecordImportPath)
     ),
-    fieldImportStringLiteral
-  );
+    ts.factory.createImportDeclaration(
+      undefined,
+      undefined,
+      f.createImportClause(
+        false,
+        undefined,
+        f.createNamedImports(importSpecifiers)
+      ),
+      f.createStringLiteral(kintoneFieldImportPath)
+    ),
+  ];
 
   return stringer([
     ...createHeaderComment(),
-    importDeclaration,
+    ...importDeclarations,
     ...interfaceNodes,
   ]);
 };
