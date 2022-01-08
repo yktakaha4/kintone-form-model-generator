@@ -7,6 +7,9 @@ import {
   stringer,
   withJSDocComments,
 } from "./util/ast";
+import { getLogger } from "log4js";
+
+const logger = getLogger();
 
 const kintoneFieldImportPath =
   "@kintone/rest-api-client/lib/KintoneFields/types/field";
@@ -69,6 +72,8 @@ export const generate = async ({
     }
   }
 
+  logger.info("appIds:", appIds);
+
   // generate
   const interfaceNames: Set<string> = new Set();
   const interfaceNodes: Array<ts.Node> = [];
@@ -76,6 +81,7 @@ export const generate = async ({
 
   // For each application
   for (const { appId, code: appCode, name: appName } of apps) {
+    logger.info("appId:", appId);
     const { properties, revision } = await client.getFormFields({ appId });
 
     const propertyNames: Set<string> = new Set();
@@ -83,6 +89,7 @@ export const generate = async ({
 
     // add meta fields
     for (const { propertyName, type } of metaTypes) {
+      logger.debug("propertyName:", propertyName);
       fieldTypes.add(type);
       propertyElements.push(
         withJSDocComments(
@@ -99,6 +106,7 @@ export const generate = async ({
 
     // For each property
     for (const code of Object.keys(properties).sort()) {
+      logger.debug("code:", code);
       const field = properties[code];
 
       const { type, label } = field;
@@ -115,6 +123,7 @@ export const generate = async ({
         // For each property in subtable field
         const inSubtablePropertySignatures: Array<ts.PropertySignature> = [];
         for (const inSubtableCode of Object.keys(field.fields)) {
+          logger.debug("inSubtableCode:", inSubtableCode);
           const inSubtableField = field.fields[inSubtableCode];
           const { type: inSubtableType, label: inSubtableLabel } =
             inSubtableField;
@@ -139,7 +148,7 @@ export const generate = async ({
               )
             );
           } else {
-            console.info(
+            logger.debug(
               `skip: appId=${appId}, code=${code}, inSubtableCode=${inSubtableCode}, inSubtableType=${inSubtableType}`
             );
           }
@@ -173,8 +182,7 @@ export const generate = async ({
           )
         );
       } else {
-        // TODO: logging
-        console.info(`skip: appId=${appId}, code=${code}, type=${type}`);
+        logger.debug(`skip: appId=${appId}, code=${code}, type=${type}`);
       }
     }
 
@@ -200,8 +208,7 @@ export const generate = async ({
     interfaceName = sanitizeInterfaceName(interfaceName);
     if (interfaceNames.has(interfaceName)) {
       if (config.modelNamingDuplicationStrategy === "overwrite") {
-        // TODO: logging
-        console.warn(
+        logger.warn(
           `duplicate: appId=${appId}, interfaceName=${interfaceName}`
         );
       } else if (

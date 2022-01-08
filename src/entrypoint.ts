@@ -1,5 +1,9 @@
+import "./util/logging";
 import process from "process";
 import { main } from "./main";
+import { getLogger } from "log4js";
+
+const logger = getLogger();
 
 main()
   .then(() => {
@@ -7,5 +11,6 @@ main()
   })
   .catch((e) => {
     console.error(e);
+    logger.error(e);
     process.exitCode = 1;
   });

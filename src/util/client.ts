@@ -1,8 +1,10 @@
 import { KintoneRestAPIClient } from "@kintone/rest-api-client";
 import { App } from "@kintone/rest-api-client/lib/client/types/app";
 import { PathLike, readFileSync } from "fs";
+import { getLogger } from "log4js";
 import { env } from "process";
 
+const logger = getLogger("kintone");
 const encoding = "utf-8";
 
 export interface ClientConfig {
@@ -35,7 +37,7 @@ export class Client {
         limit,
       });
 
-      console.log(JSON.stringify(result));
+      logger.info(JSON.stringify(result));
 
       allApps = allApps.concat(result.apps);
 
@@ -51,7 +53,9 @@ export class Client {
 
   async getFormFields({ appId }: { appId: string }) {
     const result = await this.client.app.getFormFields({ app: appId });
-    console.log(JSON.stringify(result));
+
+    logger.info(JSON.stringify(result));
+
     return result;
   }
 }
