@@ -217,7 +217,7 @@ describe("Import", () => {
 
 describe("createClientConfig", () => {
   test("read config file", () => {
-    const filePath = join(__dirname, "..", "__tests__", "kintone-config.json");
+    const filePath = join(__dirname, "..", "__mocks__", "kintone-config.json");
     const config = createClientConfig(filePath);
     expect(config.auth?.username).toBe("ユーザー名");
   });
