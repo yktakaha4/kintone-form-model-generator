@@ -51,6 +51,228 @@ const metaTypes = [
   { propertyName: "__REVISION__", type: "Revision" },
 ];
 
+// https://developer.cybozu.io/hc/ja/articles/202166330
+const simpleParameterTypeMappings: Record<string, ts.TypeLiteralNode> = {
+  CREATOR: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeLiteralNode([
+        f.createPropertySignature(
+          undefined,
+          f.createIdentifier("code"),
+          undefined,
+          f.createTypeReferenceNode(f.createIdentifier("string"))
+        ),
+      ])
+    ),
+  ]),
+  CREATED_TIME: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeReferenceNode(f.createIdentifier("string"))
+    ),
+  ]),
+  MODIFIER: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeLiteralNode([
+        f.createPropertySignature(
+          undefined,
+          f.createIdentifier("code"),
+          undefined,
+          f.createTypeReferenceNode(f.createIdentifier("string"))
+        ),
+      ])
+    ),
+  ]),
+  UPDATED_TIME: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeReferenceNode(f.createIdentifier("string"))
+    ),
+  ]),
+  SINGLE_LINE_TEXT: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeReferenceNode(f.createIdentifier("string"))
+    ),
+  ]),
+  MULTI_LINE_TEXT: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeReferenceNode(f.createIdentifier("string"))
+    ),
+  ]),
+  RICH_TEXT: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeReferenceNode(f.createIdentifier("string"))
+    ),
+  ]),
+  NUMBER: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeReferenceNode(f.createIdentifier("string"))
+    ),
+  ]),
+  // CALC type can`t update.
+  CHECK_BOX: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createArrayTypeNode(
+        f.createTypeReferenceNode(f.createIdentifier("string"))
+      )
+    ),
+  ]),
+  RADIO_BUTTON: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeReferenceNode(f.createIdentifier("string"))
+    ),
+  ]),
+  MULTI_SELECT: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createArrayTypeNode(
+        f.createTypeReferenceNode(f.createIdentifier("string"))
+      )
+    ),
+  ]),
+  DROP_DOWN: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeReferenceNode(f.createIdentifier("string"))
+    ),
+  ]),
+  USER_SELECT: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createArrayTypeNode(
+        f.createTypeLiteralNode([
+          f.createPropertySignature(
+            undefined,
+            f.createIdentifier("code"),
+            undefined,
+            f.createTypeReferenceNode(f.createIdentifier("string"))
+          ),
+        ])
+      )
+    ),
+  ]),
+  ORGANIZATION_SELECT: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createArrayTypeNode(
+        f.createTypeLiteralNode([
+          f.createPropertySignature(
+            undefined,
+            f.createIdentifier("code"),
+            undefined,
+            f.createTypeReferenceNode(f.createIdentifier("string"))
+          ),
+        ])
+      )
+    ),
+  ]),
+  GROUP_SELECT: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createArrayTypeNode(
+        f.createTypeLiteralNode([
+          f.createPropertySignature(
+            undefined,
+            f.createIdentifier("code"),
+            undefined,
+            f.createTypeReferenceNode(f.createIdentifier("string"))
+          ),
+        ])
+      )
+    ),
+  ]),
+  DATE: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeReferenceNode(f.createIdentifier("string"))
+    ),
+  ]),
+  TIME: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeReferenceNode(f.createIdentifier("string"))
+    ),
+  ]),
+  DATETIME: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeReferenceNode(f.createIdentifier("string"))
+    ),
+  ]),
+  LINK: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createTypeReferenceNode(f.createIdentifier("string"))
+    ),
+  ]),
+  FILE: f.createTypeLiteralNode([
+    f.createPropertySignature(
+      undefined,
+      f.createIdentifier("value"),
+      undefined,
+      f.createArrayTypeNode(
+        f.createTypeLiteralNode([
+          f.createPropertySignature(
+            undefined,
+            f.createIdentifier("fileKey"),
+            undefined,
+            f.createTypeReferenceNode(f.createIdentifier("string"))
+          ),
+        ])
+      )
+    ),
+  ]),
+  // CATEGORY type can`t update.
+  // STATUS type can`t update.
+  // STATUS_ASSIGNEE type can`t update.
+};
+
 export interface GenerateParams {
   appIds?: Array<string>;
 }
@@ -94,6 +316,7 @@ export const generate = async ({
 
     const propertyNames: Set<string> = new Set();
     const propertyElements: Array<ts.TypeElement> = [];
+    const parameterPropertyElements: Array<ts.TypeElement> = [];
 
     // add meta fields
     for (const { propertyName, type } of metaTypes) {
@@ -130,6 +353,8 @@ export const generate = async ({
       if (type === "SUBTABLE") {
         // For each property in subtable field
         const inSubtablePropertySignatures: Array<ts.PropertySignature> = [];
+        const parameterInSubtablePropertySignatures: Array<ts.PropertySignature> =
+          [];
         for (const inSubtableCode of Object.keys(field.fields)) {
           logger.debug("inSubtableCode:", inSubtableCode);
           const inSubtableField = field.fields[inSubtableCode];
@@ -151,10 +376,62 @@ export const generate = async ({
                 [
                   inSubtableLabel,
                   inSubtableCode,
+                  inSubtableType,
                   `@type ${simpleTypeMappings[inSubtableType]}`,
                 ]
               )
             );
+
+            // for parameter
+            if (simpleParameterTypeMappings[inSubtableType]) {
+              parameterInSubtablePropertySignatures.push(
+                withJSDocComments(
+                  f.createPropertySignature(
+                    undefined,
+                    f.createIdentifier("id"),
+                    undefined,
+                    f.createTypeReferenceNode("string")
+                  ),
+                  ["id", "@type string"]
+                )
+              );
+              parameterInSubtablePropertySignatures.push(
+                f.createPropertySignature(
+                  undefined,
+                  f.createIdentifier("value"),
+                  undefined,
+                  f.createTypeLiteralNode([
+                    withJSDocComments(
+                      f.createPropertySignature(
+                        undefined,
+                        f.createStringLiteral(inSubtableCode),
+                        undefined,
+                        f.createTypeLiteralNode([
+                          f.createPropertySignature(
+                            undefined,
+                            f.createIdentifier("value"),
+                            undefined,
+                            f.createTypeReferenceNode(
+                              f.createIdentifier("string")
+                            )
+                          ),
+                        ])
+                      ),
+                      [
+                        inSubtableLabel,
+                        inSubtableCode,
+                        inSubtableType,
+                        `@type ${simpleTypeMappings[inSubtableType]}`,
+                      ]
+                    ),
+                  ])
+                )
+              );
+            } else {
+              logger.debug(
+                `skip parameter: appId=${appId}, code=${code}, inSubtableCode=${inSubtableCode}, inSubtableType=${inSubtableType}`
+              );
+            }
           } else {
             logger.debug(
               `skip: appId=${appId}, code=${code}, inSubtableCode=${inSubtableCode}, inSubtableType=${inSubtableType}`
@@ -176,7 +453,32 @@ export const generate = async ({
             [label, code, `@type ${customTypeMappings.SUBTABLE}`]
           )
         );
+
+        // for Parameter
+        parameterPropertyElements.push(
+          withJSDocComments(
+            f.createPropertySignature(
+              undefined,
+              f.createStringLiteral(propertyName),
+              undefined,
+              f.createTypeLiteralNode([
+                f.createPropertySignature(
+                  undefined,
+                  f.createIdentifier("value"),
+                  undefined,
+                  f.createArrayTypeNode(
+                    f.createTypeLiteralNode(
+                      parameterInSubtablePropertySignatures
+                    )
+                  )
+                ),
+              ])
+            ),
+            [label, code, type, `@type Object`]
+          )
+        );
       } else if (simpleTypeMappings[type]) {
+        // Simple type
         fieldTypes.add(simpleTypeMappings[type]);
         propertyElements.push(
           withJSDocComments(
@@ -186,9 +488,28 @@ export const generate = async ({
               undefined,
               f.createTypeReferenceNode(simpleTypeMappings[type])
             ),
-            [label, code, `@type ${simpleTypeMappings[type]}`]
+            [label, code, type, `@type ${simpleTypeMappings[type]}`]
           )
         );
+
+        // for Parameter
+        if (simpleParameterTypeMappings[type]) {
+          parameterPropertyElements.push(
+            withJSDocComments(
+              f.createPropertySignature(
+                undefined,
+                f.createStringLiteral(propertyName),
+                undefined,
+                simpleParameterTypeMappings[type]
+              ),
+              [label, code, type, "@type Object"]
+            )
+          );
+        } else {
+          logger.debug(
+            `skip parameter: appId=${appId}, code=${code}, type=${type}`
+          );
+        }
       } else {
         logger.debug(`skip: appId=${appId}, code=${code}, type=${type}`);
       }
@@ -257,6 +578,29 @@ export const generate = async ({
         ),
         [
           interfaceName,
+          appName,
+          `id: ${appId}`,
+          `revision: ${revision}`,
+          appCode && `code: ${appCode}`,
+          `@see ${clientConfig.baseUrl}/k/${appId}/`,
+        ].filter((c) => c)
+      )
+    );
+
+    // for parameter
+    const interfaceNameForParameter = `${interfaceName}ForParameter`;
+    interfaceNodes.push(
+      withJSDocComments(
+        f.createInterfaceDeclaration(
+          undefined,
+          [f.createToken(ts.SyntaxKind.ExportKeyword)],
+          f.createIdentifier(interfaceNameForParameter),
+          undefined,
+          undefined,
+          parameterPropertyElements
+        ),
+        [
+          interfaceNameForParameter,
           appName,
           `id: ${appId}`,
           `revision: ${revision}`,

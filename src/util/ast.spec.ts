@@ -22,6 +22,12 @@ describe("stringer", () => {
     const singleLineTextFieldPropertyNameIdentifier =
       f.createStringLiteral("singleLineText");
 
+    const objectLiteralFieldPropertyNameIdentifier =
+      f.createStringLiteral("objectLiteralField");
+    const objectInnerFieldPropertyNameIdentifier =
+      f.createStringLiteral("objectInnerField");
+    const objectInterFieldIdentifier = f.createIdentifier("string");
+
     const nodes = [
       f.createImportDeclaration(
         undefined,
@@ -69,6 +75,19 @@ describe("stringer", () => {
               ]),
             ])
           ),
+          f.createPropertySignature(
+            undefined,
+            objectLiteralFieldPropertyNameIdentifier,
+            undefined,
+            f.createTypeLiteralNode([
+              f.createPropertySignature(
+                undefined,
+                objectInnerFieldPropertyNameIdentifier,
+                undefined,
+                f.createTypeReferenceNode(objectInterFieldIdentifier)
+              ),
+            ])
+          ),
         ]
       ),
     ];
@@ -81,6 +100,9 @@ export interface InterfaceName {
     "subTableField": Subtable<{
         "singleLineText": SingleLineText;
     }>;
+    "objectLiteralField": {
+        "objectInnerField": string;
+    };
 }
 `.trimStart()
     );
