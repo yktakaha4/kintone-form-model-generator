@@ -302,6 +302,7 @@ export const generate = async ({
   }
 
   logger.info("appIds:", appIds);
+  cliLogger.info(`target app count: ${apps.length}`);
 
   // generate
   cliLogger.info("generating models...");
@@ -312,6 +313,7 @@ export const generate = async ({
   // For each application
   for (const { appId, code: appCode, name: appName } of apps) {
     logger.info("appId:", appId);
+    cliLogger.info(`app: id=${appId}, name=${appName}, code=${appCode || "-"}`);
     const { properties, revision } = await client.getFormFields({ appId });
 
     const propertyNames: Set<string> = new Set();
