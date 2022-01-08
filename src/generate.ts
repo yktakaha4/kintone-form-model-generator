@@ -5,6 +5,7 @@ import {
   createHeaderComment,
   sanitizeInterfaceName,
   stringer,
+  withJSDocComments,
 } from "./util/ast";
 
 const kintoneFieldImportPath =
@@ -69,7 +70,7 @@ export const generate = async ({
 
   // For each application
   for (const { appId, code: appCode, name: appName } of apps) {
-    const { properties } = await client.getFormFields({ appId });
+    const { properties, revision } = await client.getFormFields({ appId });
 
     const propertyNames: Set<string> = new Set();
     const propertyElements: Array<ts.TypeElement> = [];
@@ -78,11 +79,14 @@ export const generate = async ({
     for (const { propertyName, type } of metaTypes) {
       fieldTypes.add(type);
       propertyElements.push(
-        f.createPropertySignature(
-          undefined,
-          f.createStringLiteral(propertyName),
-          undefined,
-          f.createTypeReferenceNode(type)
+        withJSDocComments(
+          f.createPropertySignature(
+            undefined,
+            f.createStringLiteral(propertyName),
+            undefined,
+            f.createTypeReferenceNode(type)
+          ),
+          [type, `@type ${type}`]
         )
       );
     }
@@ -127,13 +131,20 @@ export const generate = async ({
 
             fieldTypes.add(simpleTypeMappings[inSubtableType]);
             inSubtablePropertySignatures.push(
-              f.createPropertySignature(
-                undefined,
-                f.createStringLiteral(inSubtablePropertyName),
-                undefined,
-                f.createTypeReferenceNode(
-                  f.createIdentifier(simpleTypeMappings[inSubtableType])
-                )
+              withJSDocComments(
+                f.createPropertySignature(
+                  undefined,
+                  f.createStringLiteral(inSubtablePropertyName),
+                  undefined,
+                  f.createTypeReferenceNode(
+                    f.createIdentifier(simpleTypeMappings[inSubtableType])
+                  )
+                ),
+                [
+                  inSubtableLabel,
+                  inSubtableCode,
+                  `@type ${simpleTypeMappings[inSubtableType]}`,
+                ]
               )
             );
           } else {
@@ -145,23 +156,29 @@ export const generate = async ({
 
         fieldTypes.add(customTypeMappings.SUBTABLE);
         propertyElements.push(
-          f.createPropertySignature(
-            undefined,
-            f.createStringLiteral(propertyName),
-            undefined,
-            f.createTypeReferenceNode(customTypeMappings.SUBTABLE, [
-              f.createTypeLiteralNode(inSubtablePropertySignatures),
-            ])
+          withJSDocComments(
+            f.createPropertySignature(
+              undefined,
+              f.createStringLiteral(propertyName),
+              undefined,
+              f.createTypeReferenceNode(customTypeMappings.SUBTABLE, [
+                f.createTypeLiteralNode(inSubtablePropertySignatures),
+              ])
+            ),
+            [label, code, `@type ${customTypeMappings.SUBTABLE}`]
           )
         );
       } else if (simpleTypeMappings[type]) {
         fieldTypes.add(simpleTypeMappings[type]);
         propertyElements.push(
-          f.createPropertySignature(
-            undefined,
-            f.createStringLiteral(propertyName),
-            undefined,
-            f.createTypeReferenceNode(simpleTypeMappings[type])
+          withJSDocComments(
+            f.createPropertySignature(
+              undefined,
+              f.createStringLiteral(propertyName),
+              undefined,
+              f.createTypeReferenceNode(simpleTypeMappings[type])
+            ),
+            [label, code, `@type ${simpleTypeMappings[type]}`]
           )
         );
       } else {
@@ -192,13 +209,22 @@ export const generate = async ({
     interfaceNames.add(sanitizedInterfaceName);
 
     interfaceNodes.push(
-      f.createInterfaceDeclaration(
-        undefined,
-        [f.createToken(ts.SyntaxKind.ExportKeyword)],
-        f.createIdentifier(sanitizedInterfaceName),
-        undefined,
-        undefined,
-        propertyElements
+      withJSDocComments(
+        f.createInterfaceDeclaration(
+          undefined,
+          [f.createToken(ts.SyntaxKind.ExportKeyword)],
+          f.createIdentifier(sanitizedInterfaceName),
+          undefined,
+          undefined,
+          propertyElements
+        ),
+        [
+          interfaceName,
+          appName,
+          `id: ${appId}`,
+          `revision: ${revision}`,
+          appCode && `code: ${appCode}`,
+        ].filter((c) => c)
       )
     );
   }

@@ -1,4 +1,4 @@
-import ts, { factory as f } from "typescript";
+import ts, { addSyntheticLeadingComment, factory as f } from "typescript";
 import p from "../../package.json";
 
 export const stringer = (nodes: Array<ts.Node>) => {
@@ -36,4 +36,16 @@ export const createHeaderComment = () => {
       [f.createJSDocSeeTag(undefined, undefined, p.homepage)]
     ),
   ];
+};
+
+export const withJSDocComments = <T extends ts.Node>(
+  node: T,
+  comments: Array<string>
+) => {
+  return addSyntheticLeadingComment(
+    node,
+    ts.SyntaxKind.MultiLineCommentTrivia,
+    [...["", ...new Set(comments)].map((c) => `* ${c}`), ""].join("\n"),
+    true
+  );
 };
