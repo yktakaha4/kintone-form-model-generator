@@ -10,6 +10,7 @@ import {
 import { getLogger } from "log4js";
 
 const logger = getLogger();
+const cliLogger = getLogger("cli");
 
 const kintoneFieldImportPath =
   "@kintone/rest-api-client/lib/KintoneFields/types/field";
@@ -64,6 +65,7 @@ export const generate = async ({
   const client = new Client(clientConfig);
 
   // get app
+  cliLogger.info("fetch Kintone app info...");
   const appIds = params.appIds?.filter((appId) => appId) ?? [];
   const apps = await client.getApps({ ids: appIds });
   for (const appId of appIds) {
@@ -75,6 +77,7 @@ export const generate = async ({
   logger.info("appIds:", appIds);
 
   // generate
+  cliLogger.info("generating models...");
   const interfaceNames: Set<string> = new Set();
   const interfaceNodes: Array<ts.Node> = [];
   const fieldTypes: Set<string> = new Set();

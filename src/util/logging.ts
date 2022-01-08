@@ -1,6 +1,7 @@
 import log4js from "log4js";
 import path from "path";
 import util from "util";
+import { env } from "process";
 
 const logDirectory = path.join(process.cwd(), "logs");
 const logLayout = {
@@ -28,11 +29,20 @@ const logLayout = {
   },
 };
 
+const level = env.LOG_LEVEL || "off";
+
 log4js.configure({
   appenders: {
     console: {
       type: "console",
       layout: logLayout,
+    },
+    cli: {
+      type: "console",
+      layout: {
+        type: "pattern",
+        pattern: "%m",
+      },
     },
     app: {
       type: "dateFile",
@@ -54,12 +64,16 @@ log4js.configure({
   categories: {
     default: {
       appenders: ["console", "app"],
-      level: "all",
+      level,
       enableCallStack: true,
+    },
+    cli: {
+      appenders: ["cli", "app"],
+      level: "all",
     },
     kintone: {
       appenders: ["kintone"],
-      level: "all",
+      level,
       enableCallStack: true,
     },
   },
