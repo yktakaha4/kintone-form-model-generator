@@ -1,5 +1,9 @@
+const dummyBaseUrl = "https://dummy-base-url.local";
+process.env.KINTONE_BASE_URL = dummyBaseUrl;
+process.env.KINTONE_USERNAME = "dummy-user";
+process.env.KINTONE_PASSWORD = "dummy-pw";
+
 import { generate } from "./generate";
-import { env } from "process";
 import * as client from "./util/client";
 import { createClientConfig, ClientConfig } from "./util/client";
 import { Config, createConfig } from "./util/config";
@@ -155,7 +159,7 @@ import { Calc, Category, CheckBox, CreatedTime, Creator, Date, DateTime, Dropdow
 * 入力項目テストアプリ
 * id: 54
 * revision: 4
-* @see ${env.KINTONE_BASE_URL}/k/54/
+* @see ${dummyBaseUrl}/k/54/
 */
 export interface KintoneApp54Record {
     /**
