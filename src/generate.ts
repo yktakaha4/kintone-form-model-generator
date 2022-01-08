@@ -405,7 +405,7 @@ export const generate = async ({
                       f.createPropertySignature(
                         undefined,
                         f.createStringLiteral(inSubtableCode),
-                        undefined,
+                        f.createToken(ts.SyntaxKind.QuestionToken),
                         f.createTypeLiteralNode([
                           f.createPropertySignature(
                             undefined,
@@ -460,7 +460,7 @@ export const generate = async ({
             f.createPropertySignature(
               undefined,
               f.createStringLiteral(propertyName),
-              undefined,
+              f.createToken(ts.SyntaxKind.QuestionToken),
               f.createTypeLiteralNode([
                 f.createPropertySignature(
                   undefined,
@@ -474,7 +474,7 @@ export const generate = async ({
                 ),
               ])
             ),
-            [label, code, type, `@type Object`]
+            [`${label}`, code, type, `@type Object`]
           )
         );
       } else if (simpleTypeMappings[type]) {
@@ -499,7 +499,7 @@ export const generate = async ({
               f.createPropertySignature(
                 undefined,
                 f.createStringLiteral(propertyName),
-                undefined,
+                f.createToken(ts.SyntaxKind.QuestionToken),
                 simpleParameterTypeMappings[type]
               ),
               [label, code, type, "@type Object"]
