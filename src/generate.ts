@@ -73,6 +73,9 @@ export const generate = async ({
       throw new Error(`not found: appId=${appId}`);
     }
   }
+  if (apps.length === 0) {
+    throw new Error("There is no apps in your Kintone account.");
+  }
 
   logger.info("appIds:", appIds);
 

@@ -88,7 +88,45 @@ describe("generate", () => {
     });
   });
 
-  describe("error case", () => {
+  describe("error case (not found)", () => {
+    let config: Config;
+    let clientConfig: ClientConfig;
+    beforeEach(() => {
+      config = createConfig();
+      config.modelNaming = "appName";
+
+      clientConfig = createClientConfig();
+      jest.spyOn(client, "Client").mockImplementationOnce(() => {
+        return {
+          getApps: () => [],
+        } as unknown as client.Client;
+      });
+    });
+
+    test("if appId is not specified", async () => {
+      const result = generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      await expect(result).rejects.toThrow();
+    });
+
+    test("if appId is not found", async () => {
+      const result = generate({
+        params: {
+          appIds: ["1"],
+        },
+        config,
+        clientConfig,
+      });
+
+      await expect(result).rejects.toThrow();
+    });
+  });
+
+  describe("error case (duplicate)", () => {
     let config: Config;
     let clientConfig: ClientConfig;
     beforeEach(() => {
