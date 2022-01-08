@@ -5,7 +5,7 @@ const encoding = "utf-8";
 export interface Config {
   outDir?: string;
   modelNaming?: "appName" | "appId" | "appCode";
-  modelNamingMapping?: Record<string, string>;
+  modelNameMapping?: Record<string, string>;
   modelNamePrefix?: string;
   modelNameSuffix?: string;
   modelNamingDuplicationStrategy?: "error" | "overwrite";
@@ -19,10 +19,11 @@ export const createConfig = (configPath?: PathLike) => {
     config = JSON.parse(readFileSync(configPath, encoding));
   }
 
-  if (!config.outDir) config.outDir = "out/";
+  if (!config?.outDir?.trim()) config.outDir = "out/";
   if (!config.modelNaming) config.modelNaming = "appId";
-  if (!config.modelNamePrefix) config.modelNamePrefix = "Kintone";
-  if (!config.modelNameSuffix) config.modelNameSuffix = "Record";
+  if (!config.modelNameMapping) config.modelNameMapping = {};
+  if (config.modelNamePrefix == null) config.modelNamePrefix = "Kintone";
+  if (config.modelNameSuffix == null) config.modelNameSuffix = "Record";
   if (!config.modelNamingDuplicationStrategy)
     config.modelNamingDuplicationStrategy = "error";
   if (!config.propertyNaming) config.propertyNaming = "code";

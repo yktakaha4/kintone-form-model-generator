@@ -188,12 +188,14 @@ export const generate = async ({
     }
 
     let interfaceName: string;
-    if (config.modelNaming === "appName" && appName) {
+    if (config.modelNameMapping && config.modelNameMapping[appId]) {
+      interfaceName = config.modelNameMapping[appId];
+    } else if (config.modelNaming === "appName" && appName) {
       interfaceName = appName;
     } else if (config.modelNaming === "appCode") {
       interfaceName = appCode;
     } else {
-      interfaceName = `AppId${appId}`;
+      interfaceName = `App${appId}`;
     }
 
     if (config.modelNamePrefix) {
@@ -202,10 +204,6 @@ export const generate = async ({
     if (config.modelNameSuffix) {
       interfaceName = interfaceName + config.modelNameSuffix;
     }
-
-    console.log("-----------------------");
-    console.log(interfaceName);
-    console.log("-----------------------");
 
     const sanitizedInterfaceName = sanitizeInterfaceName(interfaceName);
     if (interfaceNames.has(sanitizedInterfaceName)) {

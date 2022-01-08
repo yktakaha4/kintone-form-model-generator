@@ -47,7 +47,7 @@ kintone-form-model-generator generate --config=config.json
 | --------------------------------- | ------ | --------- | ------------------------------------------------------------- |
 | outDir                            | String | `out/`    | Output directory                                              |
 | modelNaming                       | String | `appId`   | `appId` or `appName` or `appCode`                             |
-| modelNamingMapping                | Object | {}        | A dictionary object with a model name using `appId` as a key. |
+| modelNameMapping                  | Object | {}        | A dictionary object with a model name using `appId` as a key. |
 | modelNamePrefix                   | String | `Kintone` | Model name prefix                                             |
 | modelNameSuffix                   | String | `Record`  | Model name suffix                                             |
 | modelNamingDuplicationStrategy    | String | `error`   | `error` or `overwrite`                                        |
@@ -57,7 +57,7 @@ kintone-form-model-generator generate --config=config.json
 ```json
 {
   "outDir": "dist/",
-  "modelNamingMapping": {
+  "modelNameMapping": {
     "1": "Customer",
     "2": "Sales"
   },
