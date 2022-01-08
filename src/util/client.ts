@@ -29,15 +29,17 @@ export class Client {
     let offset = 0;
     let allApps: Array<App> = [];
     while (offset < Number.MAX_SAFE_INTEGER) {
-      const { apps } = await this.client.app.getApps({
+      const result = await this.client.app.getApps({
         ids: params?.ids,
         offset: offset * limit,
         limit,
       });
 
-      allApps = allApps.concat(apps);
+      console.log(JSON.stringify(result));
 
-      if (apps.length < limit) {
+      allApps = allApps.concat(result.apps);
+
+      if (result.apps.length < limit) {
         break;
       } else {
         offset += 1;
@@ -48,7 +50,9 @@ export class Client {
   }
 
   async getFormFields({ appId }: { appId: string }) {
-    return await this.client.app.getFormFields({ app: appId });
+    const result = await this.client.app.getFormFields({ app: appId });
+    console.log(JSON.stringify(result));
+    return result;
   }
 }
 

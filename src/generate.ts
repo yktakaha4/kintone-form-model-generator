@@ -28,6 +28,9 @@ const simpleTypeMappings: Record<string, string> = {
   CATEGORY: "Category",
   STATUS: "Status",
   STATUS_ASSIGNEE: "StatusAssignee",
+  RICH_TEXT: "RichText",
+  MULTI_LINE_TEXT: "MultiLineText",
+  CALC: "Calc",
 };
 const customTypeMappings = {
   SUBTABLE: "Subtable",
@@ -112,22 +115,28 @@ export const generate = async ({
           const { type: inSubtableType, label: inSubtableLabel } =
             inSubtableField;
 
-          const inSubtablePropertyName =
-            config.propertyNaming === "label"
-              ? inSubtableLabel
-              : inSubtableCode;
+          if (simpleTypeMappings[inSubtableType]) {
+            const inSubtablePropertyName =
+              config.propertyNaming === "label"
+                ? inSubtableLabel
+                : inSubtableCode;
 
-          fieldTypes.add(simpleTypeMappings[inSubtableType]);
-          inSubtablePropertySignatures.push(
-            f.createPropertySignature(
-              undefined,
-              f.createStringLiteral(inSubtablePropertyName),
-              undefined,
-              f.createTypeReferenceNode(
-                f.createIdentifier(simpleTypeMappings[inSubtableType])
+            fieldTypes.add(simpleTypeMappings[inSubtableType]);
+            inSubtablePropertySignatures.push(
+              f.createPropertySignature(
+                undefined,
+                f.createStringLiteral(inSubtablePropertyName),
+                undefined,
+                f.createTypeReferenceNode(
+                  f.createIdentifier(simpleTypeMappings[inSubtableType])
+                )
               )
-            )
-          );
+            );
+          } else {
+            console.info(
+              `skip: appId=${appId}, code=${code}, inSubtableCode=${inSubtableCode}, inSubtableType=${inSubtableType}`
+            );
+          }
         }
 
         fieldTypes.add(customTypeMappings.SUBTABLE);

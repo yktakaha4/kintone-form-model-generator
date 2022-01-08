@@ -26,6 +26,9 @@ import {
   Category,
   Status,
   StatusAssignee,
+  RichText,
+  MultiLineText,
+  Calc,
 } from "@kintone/rest-api-client/lib/KintoneFields/types/field";
 import { createClientConfig } from "./client";
 
@@ -59,6 +62,9 @@ interface FieldTestInterface extends Record {
   CategoryField: Category;
   StatusField: Status;
   StatusAssigneeField: StatusAssignee;
+  RichTextField: RichText;
+  MultiLineTextField: MultiLineText;
+  CalcField: Calc;
 }
 
 describe("Import", () => {
@@ -191,6 +197,18 @@ describe("Import", () => {
             name: "name",
           },
         ],
+      },
+      RichTextField: {
+        type: "RICH_TEXT",
+        value: "value",
+      },
+      MultiLineTextField: {
+        type: "MULTI_LINE_TEXT",
+        value: "value",
+      },
+      CalcField: {
+        type: "CALC",
+        value: "value",
       },
     };
     expect(record.IdField.value).toBeTruthy;
