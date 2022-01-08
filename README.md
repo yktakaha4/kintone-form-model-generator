@@ -97,6 +97,8 @@ kintone-form-model-generator generate --config=config.json
 | modelNameSuffix                | String | `Record`  | Model name suffix                                             |
 | modelNamingDuplicationStrategy | String | `error`   | `error` or `skip` or `uniquifyWithAppId`                      |
 
+Example:
+
 ```json
 {
   "outDir": "dist/",
@@ -118,6 +120,8 @@ See more details in [@kintone/rest-api-client](https://github.com/kintone/js-sdk
 ```sh
 kintone-form-model-generator generate --kintone-config=kintone-config.json
 ```
+
+Example:
 
 ```json
 {
