@@ -30,7 +30,7 @@ const logLayout = {
 };
 
 const level = env.LOG_LEVEL || "off";
-const cliLevel = env.LOG_LEVEL ? "off" : "all";
+const cliLevel = level === "off" ? "all" : "off";
 
 log4js.configure({
   appenders: {
@@ -64,7 +64,7 @@ log4js.configure({
   },
   categories: {
     default: {
-      appenders: ["console", "app"],
+      appenders: env.LOG_LEVEL ? ["console", "app"] : ["console"],
       level,
       enableCallStack: true,
     },
@@ -73,7 +73,7 @@ log4js.configure({
       level: cliLevel,
     },
     kintone: {
-      appenders: ["kintone"],
+      appenders: env.LOG_LEVEL ? ["kintone"] : ["console"],
       level,
       enableCallStack: true,
     },
