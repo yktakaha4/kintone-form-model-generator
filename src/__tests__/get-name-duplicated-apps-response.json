@@ -1,0 +1,28 @@
+{
+  "apps": [
+    {
+      "appId": "54",
+      "code": "",
+      "name": "入力項目テストアプリ",
+      "description": "",
+      "createdAt": "2022-01-07T15:46:00.000Z",
+      "creator": { "code": "example@gmail.com", "name": "example" },
+      "modifiedAt": "2022-01-07T15:50:48.000Z",
+      "modifier": { "code": "example@gmail.com", "name": "example" },
+      "spaceId": null,
+      "threadId": null
+    },
+    {
+      "appId": "55",
+      "code": "",
+      "name": "入力項目テストアプリ",
+      "description": "",
+      "createdAt": "2022-01-07T15:46:00.000Z",
+      "creator": { "code": "example@gmail.com", "name": "example" },
+      "modifiedAt": "2022-01-07T15:50:48.000Z",
+      "modifier": { "code": "example@gmail.com", "name": "example" },
+      "spaceId": null,
+      "threadId": null
+    }
+  ]
+}

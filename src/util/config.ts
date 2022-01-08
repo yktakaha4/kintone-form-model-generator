@@ -8,7 +8,7 @@ export interface Config {
   modelNameMapping?: Record<string, string>;
   modelNamePrefix?: string;
   modelNameSuffix?: string;
-  modelNamingDuplicationStrategy?: "error" | "overwrite" | "uniquifyWithAppId";
+  modelNamingDuplicationStrategy?: "error" | "skip" | "uniquifyWithAppId";
 }
 
 export const createConfig = (configPath?: PathLike) => {

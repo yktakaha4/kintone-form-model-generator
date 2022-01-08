@@ -1,28 +1,143 @@
 import { generate } from "./generate";
 import { env } from "process";
 import * as client from "./util/client";
-import { createClientConfig } from "./util/client";
-import { createConfig } from "./util/config";
+import { createClientConfig, ClientConfig } from "./util/client";
+import { Config, createConfig } from "./util/config";
 import getAppsResponse from "./__tests__/get-apps-response.json";
+import getNameDuplicatedAppsResponse from "./__tests__/get-name-duplicated-apps-response.json";
 import getFormFieldsResponse from "./__tests__/get-form-fields-response.json";
 import p from "../package.json";
 
 describe("generate", () => {
-  test("succeed", async () => {
-    jest.spyOn(client, "Client").mockImplementationOnce(() => {
-      return {
-        getApps: () => getAppsResponse.apps,
-        getFormFields: () => getFormFieldsResponse,
-      } as unknown as client.Client;
+  describe("normal case", () => {
+    let config: Config;
+    let clientConfig: ClientConfig;
+    beforeEach(() => {
+      config = createConfig();
+      clientConfig = createClientConfig();
+      jest.spyOn(client, "Client").mockImplementationOnce(() => {
+        return {
+          getApps: () => getAppsResponse.apps,
+          getFormFields: () => getFormFieldsResponse,
+        } as unknown as client.Client;
+      });
     });
 
-    const result = await generate({
-      params: {},
-      config: createConfig(),
-      clientConfig: createClientConfig(),
+    test("regression test", async () => {
+      const result = await generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      expect(result).toBe(actual);
     });
 
-    expect(result).toBe(actual);
+    test("if modelNaming is appName", async () => {
+      config.modelNaming = "appName";
+
+      const result = await generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      expect(result).toContain("interface Kintone入力項目テストアプリRecord");
+    });
+
+    test("modelNameMapping", async () => {
+      config.modelNameMapping = {
+        "54": "CustomName",
+      };
+
+      const result = await generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      expect(result).toContain("interface KintoneCustomNameRecord");
+    });
+
+    test("if modelNamePrefix is empty", async () => {
+      config.modelNamePrefix = "";
+
+      const result = await generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      expect(result).toContain("interface App54Record");
+    });
+
+    test("if modelNameSuffix is empty", async () => {
+      config.modelNameSuffix = "";
+
+      const result = await generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      expect(result).toContain("interface KintoneApp54");
+    });
+  });
+
+  describe("error case", () => {
+    let config: Config;
+    let clientConfig: ClientConfig;
+    beforeEach(() => {
+      config = createConfig();
+      config.modelNaming = "appName";
+
+      clientConfig = createClientConfig();
+      jest.spyOn(client, "Client").mockImplementationOnce(() => {
+        return {
+          getApps: () => getNameDuplicatedAppsResponse.apps,
+          getFormFields: () => getFormFieldsResponse,
+        } as unknown as client.Client;
+      });
+    });
+
+    test("if modelNamingDuplicationStrategy is error", async () => {
+      config.modelNamingDuplicationStrategy = "error";
+
+      const result = generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      await expect(result).rejects.toThrow();
+    });
+
+    test("if modelNamingDuplicationStrategy is skip", async () => {
+      config.modelNamingDuplicationStrategy = "skip";
+
+      const result = await generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      expect(result).toContain("id: 54");
+    });
+
+    test("if modelNamingDuplicationStrategy is uniquifyWithAppId", async () => {
+      config.modelNamingDuplicationStrategy = "uniquifyWithAppId";
+
+      const result = await generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      expect(result).toContain("interface Kintone入力項目テストアプリRecord");
+      expect(result).toContain(
+        "interface Kintone入力項目テストアプリRecordApp55"
+      );
+    });
   });
 });
 

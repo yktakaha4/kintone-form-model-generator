@@ -50,7 +50,7 @@ kintone-form-model-generator generate --config=config.json
 | modelNameMapping               | Object | {}        | A dictionary object with a model name using `appId` as a key. |
 | modelNamePrefix                | String | `Kintone` | Model name prefix                                             |
 | modelNameSuffix                | String | `Record`  | Model name suffix                                             |
-| modelNamingDuplicationStrategy | String | `error`   | `error` or `overwrite` or `uniquifyWithAppId`                 |
+| modelNamingDuplicationStrategy | String | `error`   | `error` or `skip` or `uniquifyWithAppId`                      |
 
 ```json
 {

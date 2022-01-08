@@ -210,10 +210,12 @@ export const generate = async ({
 
     interfaceName = sanitizeInterfaceName(interfaceName);
     if (interfaceNames.has(interfaceName)) {
-      if (config.modelNamingDuplicationStrategy === "overwrite") {
-        logger.warn(
+      if (config.modelNamingDuplicationStrategy === "skip") {
+        cliLogger.warn(
           `duplicate: appId=${appId}, interfaceName=${interfaceName}`
         );
+        // to next app
+        continue;
       } else if (
         config.modelNamingDuplicationStrategy === "uniquifyWithAppId"
       ) {
