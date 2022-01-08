@@ -1,4 +1,8 @@
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 name: Publish
 
@@ -17,13 +21,11 @@ jobs:
 
       - run: yarn install
 
-      - run: yarn can-npm-publish --verbose
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-
       - run: yarn build
 
       - name: Publish
-        run: yarn publish --access public
+        run: |
+          NEW_PATCH_VERSION=$(npm view --json | jq -r ".version" | awk -F'.' '{print $1"."$2"."$3+1}')
+          yarn publish --access public --tag "$NEW_PATCH_VERSION"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}

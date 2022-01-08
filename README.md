@@ -2,7 +2,7 @@
 
 ## Prerequirements
 
-- Node.js
+- Node.js (>=12)
 
 ## Install
 
