@@ -384,17 +384,19 @@ export const generate = async ({
 
             // for parameter
             if (simpleParameterTypeMappings[inSubtableType]) {
-              parameterInSubtablePropertySignatures.push(
-                withJSDocComments(
-                  f.createPropertySignature(
-                    undefined,
-                    f.createIdentifier("id"),
-                    undefined,
-                    f.createTypeReferenceNode("string")
-                  ),
-                  ["id", "@type string"]
-                )
-              );
+              if (parameterInSubtablePropertySignatures.length === 0) {
+                parameterInSubtablePropertySignatures.push(
+                  withJSDocComments(
+                    f.createPropertySignature(
+                      undefined,
+                      f.createIdentifier("id"),
+                      undefined,
+                      f.createTypeReferenceNode("string")
+                    ),
+                    ["id", "@type string"]
+                  )
+                );
+              }
               parameterInSubtablePropertySignatures.push(
                 f.createPropertySignature(
                   undefined,
