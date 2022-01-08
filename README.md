@@ -47,9 +47,9 @@ export interface KintoneApp1Record {
    * @type Revision
    */
   __REVISION__: Revision;
-
   /**
    * チェックボックス
+   * CHECK_BOX
    * @type CheckBox
    */
   チェックボックス: CheckBox;
@@ -61,10 +61,53 @@ export interface KintoneApp1Record {
     /**
      * 文字列 (1行)
      * 文字列__1行__Table
+     * SINGLE_LINE_TEXT
      * @type SingleLineText
      */
     文字列__1行__Table: SingleLineText;
   }>;
+}
+/**
+ * KintoneApp54RecordForParameter
+ * My Awesome App
+ * id: 1
+ * revision: 1
+ * @see https://your-domain.cybozu.com/k/1/
+ */
+export interface KintoneApp1RecordForParameter {
+  /**
+   * チェックボックス
+   * CHECK_BOX
+   * @type Object
+   */
+  チェックボックス?: {
+    value: string[];
+  };
+  /**
+   * テーブル
+   * SUBTABLE
+   * @type Object
+   */
+  テーブル?: {
+    value: {
+      /**
+       * id
+       * @type string
+       */
+      id: string;
+      value: {
+        /**
+         * 文字列 (1行)
+         * 文字列__1行__Table
+         * SINGLE_LINE_TEXT
+         * @type SingleLineText
+         */
+        文字列__1行__Table?: {
+          value: string;
+        };
+      };
+    }[];
+  };
 }
 ```
 
