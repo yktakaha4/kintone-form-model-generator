@@ -233,6 +233,7 @@ export const generate = async ({
           `id: ${appId}`,
           `revision: ${revision}`,
           appCode && `code: ${appCode}`,
+          `@see ${clientConfig.baseUrl}/k/${appId}/`,
         ].filter((c) => c)
       )
     );
