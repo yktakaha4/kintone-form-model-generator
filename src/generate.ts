@@ -61,7 +61,13 @@ export const generate = async ({
   const client = new Client(clientConfig);
 
   // get app
-  const apps = await client.getApps({ ids: params.appIds });
+  const appIds = params.appIds?.filter((appId) => appId) ?? [];
+  const apps = await client.getApps({ ids: appIds });
+  for (const appId of appIds) {
+    if (!apps.find((app) => app.appId === appId)) {
+      throw new Error(`not found: appId=${appId}`);
+    }
+  }
 
   // generate
   const interfaceNames: Set<string> = new Set();
