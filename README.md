@@ -8,7 +8,10 @@
 
 ```sh
 # Install
-npm install -g yktakaha4/kintone-form-model-generator
+npm install -g kintone-form-model-generator
+
+# npx
+npx kintone-form-model-generator
 ```
 
 ## Usage

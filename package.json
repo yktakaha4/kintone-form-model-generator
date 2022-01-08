@@ -1,17 +1,23 @@
 {
   "name": "kintone-form-model-generator",
   "version": "1.0.0",
+  "description": "Generate type definitions compatible with @kintone/rest-api-client",
   "bin": {
     "kintone-form-model-generator": "bin/kintone-form-model-generator.js",
     "kfmgen": "bin/kintone-form-model-generator.js"
   },
   "main": "dist/index.js",
+  "keywords": [
+    "kintone",
+    "typescript"
+  ],
   "repository": "git@github.com:yktakaha4/kintone-form-model-generator.git",
   "author": "Yuuki Takahashi <20282867+yktakaha4@users.noreply.github.com>",
   "homepage": "https://github.com/yktakaha4/kintone-form-model-generator",
   "license": "MIT",
   "scripts": {
     "kintone-form-model-generator": "./bin/kintone-form-model-generator.js",
+    "prebuild": "rm -rf ./dist/",
     "build": "webpack",
     "lint": "run-p lint:*",
     "lint:tsc": "tsc --noEmit",
@@ -33,6 +39,7 @@
     "@types/node": "^17.0.8",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
+    "can-npm-publish": "^1.3.6",
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
     "jest": "^27.4.7",
