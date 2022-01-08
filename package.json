@@ -1,12 +1,17 @@
 {
   "name": "kintone-form-model-generator",
   "version": "1.0.0",
-  "main": "index.js",
+  "bin": {
+    "kintone-form-model-generator": "bin/kintone-form-model-generator.js",
+    "kfmgen": "bin/kintone-form-model-generator.js"
+  },
+  "main": "dist/index.js",
   "repository": "git@github.com:yktakaha4/kintone-form-model-generator.git",
   "author": "Yuuki Takahashi <20282867+yktakaha4@users.noreply.github.com>",
   "homepage": "https://github.com/yktakaha4/kintone-form-model-generator",
   "license": "MIT",
   "scripts": {
+    "kintone-form-model-generator": "./bin/kintone-form-model-generator.js",
     "build": "webpack",
     "lint": "run-p lint:*",
     "lint:tsc": "tsc --noEmit",

@@ -1,0 +1,8 @@
+**/*.*
+
+!/bin/**/*.*
+!/dist/**/*.*
+!package.json
+!yarn.lock
+!README.md
+!LICENSE
