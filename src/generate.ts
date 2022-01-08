@@ -196,6 +196,17 @@ export const generate = async ({
       interfaceName = `AppId${appId}`;
     }
 
+    if (config.modelNamePrefix) {
+      interfaceName = config.modelNamePrefix + interfaceName;
+    }
+    if (config.modelNameSuffix) {
+      interfaceName = interfaceName + config.modelNameSuffix;
+    }
+
+    console.log("-----------------------");
+    console.log(interfaceName);
+    console.log("-----------------------");
+
     const sanitizedInterfaceName = sanitizeInterfaceName(interfaceName);
     if (interfaceNames.has(sanitizedInterfaceName)) {
       const message = `duplicate: appId=${appId}, sanitizedInterfaceName=${sanitizedInterfaceName}`;
