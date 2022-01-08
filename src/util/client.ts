@@ -4,7 +4,7 @@ import { PathLike, readFileSync } from "fs";
 import { getLogger } from "log4js";
 import { env } from "process";
 
-const logger = getLogger("kintone");
+const kintoneLogger = getLogger("kintone");
 const encoding = "utf-8";
 
 export interface ClientConfig {
@@ -37,7 +37,7 @@ export class Client {
         limit,
       });
 
-      logger.info(JSON.stringify(result));
+      kintoneLogger.info(JSON.stringify(result));
 
       allApps = allApps.concat(result.apps);
 
@@ -54,7 +54,7 @@ export class Client {
   async getFormFields({ appId }: { appId: string }) {
     const result = await this.client.app.getFormFields({ app: appId });
 
-    logger.info(JSON.stringify(result));
+    kintoneLogger.info(JSON.stringify(result));
 
     return result;
   }
