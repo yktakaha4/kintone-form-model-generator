@@ -47,8 +47,8 @@ const customTypeMappings = {
   SUBTABLE: "Subtable",
 };
 const metaTypes = [
-  { propertyName: "__ID__", type: "ID" },
-  { propertyName: "__REVISION__", type: "Revision" },
+  { propertyName: "$id", type: "ID" },
+  { propertyName: "$revision", type: "Revision" },
 ];
 
 // https://developer.cybozu.io/hc/ja/articles/202166330

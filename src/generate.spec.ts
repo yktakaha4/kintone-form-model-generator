@@ -233,12 +233,12 @@ export interface KintoneApp54Record extends Record {
     * ID
     * @type ID
     */
-    "__ID__": ID;
+    "$id": ID;
     /**
     * Revision
     * @type Revision
     */
-    "__REVISION__": Revision;
+    "$revision": Revision;
     /**
     * カテゴリー
     * CATEGORY
