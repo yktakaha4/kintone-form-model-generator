@@ -178,6 +178,36 @@ describe("generate", () => {
         "interface KintoneDuplicateRecordApp55ForParameter {"
       );
     });
+
+    test("if ignore first", async () => {
+      config.modelNamingDuplicationStrategy = "error";
+      config.ignoreAppIds = ["54", "100"];
+
+      const result = await generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      expect(result).toContain("interface KintoneDuplicateRecord extends");
+      expect(result).toContain(
+        "interface KintoneDuplicateRecordForParameter {"
+      );
+      expect(result).toContain("id: 55");
+    });
+
+    test("if ignore all apps", async () => {
+      config.modelNamingDuplicationStrategy = "error";
+      config.ignoreAppIds = ["54", "55"];
+
+      const result = generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      await expect(result).rejects.toThrow();
+    });
   });
 });
 

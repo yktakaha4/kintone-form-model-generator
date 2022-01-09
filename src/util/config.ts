@@ -9,6 +9,7 @@ export interface Config {
   modelNamePrefix?: string;
   modelNameSuffix?: string;
   modelNamingDuplicationStrategy?: "error" | "skip" | "uniquifyWithAppId";
+  ignoreAppIds?: Array<string>;
 }
 
 export const createConfig = (configPath?: PathLike) => {
@@ -24,6 +25,7 @@ export const createConfig = (configPath?: PathLike) => {
   if (config.modelNameSuffix == null) config.modelNameSuffix = "Record";
   if (!config.modelNamingDuplicationStrategy)
     config.modelNamingDuplicationStrategy = "error";
+  if (!config.ignoreAppIds) config.ignoreAppIds = [];
 
   return config;
 };

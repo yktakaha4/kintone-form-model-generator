@@ -312,6 +312,13 @@ export const generate = async ({
 
   // For each application
   for (const { appId, code: appCode, name: appName } of apps) {
+    if (config.ignoreAppIds?.includes(appId)) {
+      cliLogger.info(
+        `ignore: id=${appId}, name=${appName}, code=${appCode || "-"}`
+      );
+      continue;
+    }
+
     logger.info("appId:", appId);
     cliLogger.info(`app: id=${appId}, name=${appName}, code=${appCode || "-"}`);
     const { properties, revision } = await client.getFormFields({ appId });
@@ -629,6 +636,11 @@ export const generate = async ({
         ].filter((c) => c)
       )
     );
+  }
+
+  // if all ignored
+  if (interfaceNodes.length === 0) {
+    throw new Error("all apps ignored.");
   }
 
   // import definition
