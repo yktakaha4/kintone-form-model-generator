@@ -4,6 +4,8 @@
 
 Generate type definitions compatible with [@kintone/rest-api-client](https://github.com/kintone/js-sdk/tree/master/packages/rest-api-client#readme)
 
+![example](docs/example.png)
+
 ## Prerequirements
 
 - Node.js (>=12)
@@ -32,62 +34,56 @@ kintone-form-model-generator generate --app-ids=1,5,10
 
 By default, files are generated in the `out/` directory.
 
-An example of `out/index.ts` .
-
-```ts:index.ts
+```ts:example.ts
 import { ID, Revision } from "@kintone/rest-api-client/lib/KintoneFields/types/field";
-/**
- * KintoneApp1Record
- * My Awesome App
- * id: 1
- * revision: 1
- * @see https://your-domain.cybozu.com/k/1/
- */
+
 export interface KintoneApp1Record {
   /**
-   * ID
-   * @type ID
-   */
-  __ID__: ID;
+  * ID
+  * @type ID
+  */
+  "$id": ID;
   /**
-   * Revision
-   * @type Revision
-   */
-  __REVISION__: Revision;
+  * Revision
+  * @type Revision
+  */
+  "$revision": Revision;
   /**
    * チェックボックス
    * CHECK_BOX
    * @type CheckBox
    */
-  チェックボックス: CheckBox;
+  "チェックボックス": CheckBox;
   /**
    * テーブル
    * @type Subtable
    */
-  テーブル: Subtable<{
+  "テーブル": Subtable<{
     /**
      * 文字列 (1行)
      * 文字列__1行__Table
      * SINGLE_LINE_TEXT
      * @type SingleLineText
      */
-    文字列__1行__Table: SingleLineText;
+    "文字列__1行__Table": SingleLineText;
   }>;
 }
-/**
- * KintoneApp54RecordForParameter
- * My Awesome App
- * id: 1
- * revision: 1
- * @see https://your-domain.cybozu.com/k/1/
- */
-export interface KintoneApp1RecordForParameter {
+
+export type KintoneApp54RecordForParameter = KintoneApp54RecordForParameterStrict & ForParameterLax;
+
+export type ForParameterLax = {
+    [fieldCode: string]: {
+        value: unknown;
+    };
+};
+
+export interface KintoneApp54RecordForParameterStrict {
   /**
    * チェックボックス
    * CHECK_BOX
    * @type Object
    */
-  チェックボックス?: {
+  "チェックボックス"?: {
     value: string[];
   };
   /**
@@ -95,7 +91,7 @@ export interface KintoneApp1RecordForParameter {
    * SUBTABLE
    * @type Object
    */
-  テーブル?: {
+  "テーブル"?: {
     value: {
       /**
        * id
@@ -109,7 +105,7 @@ export interface KintoneApp1RecordForParameter {
          * SINGLE_LINE_TEXT
          * @type SingleLineText
          */
-        文字列__1行__Table?: {
+        "文字列__1行__Table"?: {
           value: string;
         };
       };
