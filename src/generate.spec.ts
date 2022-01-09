@@ -406,6 +406,9 @@ export interface KintoneApp54Record extends Record {
 * @see ${dummyBaseUrl}/k/54/
 */
 export interface KintoneApp54RecordForParameter {
+    [fieldCode: string]: {
+        value: unknown;
+    };
     /**
     * グループ選択
     * GROUP_SELECT

@@ -595,7 +595,31 @@ export const generate = async ({
           f.createIdentifier(interfaceNameForParameter),
           undefined,
           undefined,
-          parameterPropertyElements
+          [
+            f.createIndexSignature(
+              undefined,
+              undefined,
+              [
+                f.createParameterDeclaration(
+                  undefined,
+                  undefined,
+                  undefined,
+                  f.createIdentifier("fieldCode"),
+                  undefined,
+                  f.createTypeReferenceNode("string")
+                ),
+              ],
+              f.createTypeLiteralNode([
+                f.createPropertySignature(
+                  undefined,
+                  f.createIdentifier("value"),
+                  undefined,
+                  f.createTypeReferenceNode(f.createIdentifier("unknown"))
+                ),
+              ])
+            ),
+            ...parameterPropertyElements,
+          ]
         ),
         [
           interfaceNameForParameter,
