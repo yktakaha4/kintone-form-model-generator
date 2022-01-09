@@ -262,6 +262,13 @@ export interface KintoneApp54Record extends Record {
         * @type SingleLineText
         */
         "文字列__1行__Table": SingleLineText;
+        /**
+        * 文字列 (1行)2
+        * 文字列__1行__Table2
+        * SINGLE_LINE_TEXT
+        * @type SingleLineText
+        */
+        "文字列__1行__Table2": SingleLineText;
     }>;
     /**
     * ドロップダウン
@@ -447,6 +454,15 @@ export interface KintoneApp54RecordForParameter {
                 * @type SingleLineText
                 */
                 "文字列__1行__Table"?: {
+                    value: string;
+                };
+                /**
+                * 文字列 (1行)2
+                * 文字列__1行__Table2
+                * SINGLE_LINE_TEXT
+                * @type SingleLineText
+                */
+                "文字列__1行__Table2"?: {
                     value: string;
                 };
             };

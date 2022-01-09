@@ -67,7 +67,7 @@ interface FieldTestInterface extends Record {
   CalcField: Calc;
 }
 
-describe("Import", () => {
+describe("@kintone-rest-api-client", () => {
   test("Field type contract test", () => {
     const record: FieldTestInterface = {
       IdField: {
