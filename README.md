@@ -1,5 +1,7 @@
 # kintone-form-model-generator
 
+![npm](https://img.shields.io/npm/v/kintone-form-model-generator) ![npm bundle size](https://img.shields.io/bundlephobia/min/kintone-form-model-generator) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/yktakaha4/kintone-form-model-generator/Publish) ![npm](https://img.shields.io/npm/dt/kintone-form-model-generator) ![NPM](https://img.shields.io/npm/l/kintone-form-model-generator)
+
 Generate type definitions compatible with [@kintone/rest-api-client](https://github.com/kintone/js-sdk/tree/master/packages/rest-api-client#readme)
 
 ## Prerequirements
