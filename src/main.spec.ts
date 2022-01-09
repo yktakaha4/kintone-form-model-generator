@@ -34,9 +34,7 @@ describe("main", () => {
 
       const content = readFileSync(join(resultPath, "index.ts")).toString();
       expect(content).toContain("export interface KintoneApp54Record");
-      expect(content).toContain(
-        "export interface KintoneApp54RecordForParameter"
-      );
+      expect(content).toContain("export type KintoneApp54RecordForParameter");
     });
 
     test("specify app-ids", async () => {
@@ -49,9 +47,7 @@ describe("main", () => {
 
       const content = readFileSync(join(resultPath, "index.ts")).toString();
       expect(content).toContain("export interface KintoneApp54Record");
-      expect(content).toContain(
-        "export interface KintoneApp54RecordForParameter"
-      );
+      expect(content).toContain("export type KintoneApp54RecordForParameter");
     });
   });
 
