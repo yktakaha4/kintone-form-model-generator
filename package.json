@@ -3,8 +3,7 @@
   "version": "1.0.9",
   "description": "Generate type definitions compatible with @kintone/rest-api-client",
   "bin": {
-    "kintone-form-model-generator": "bin/kintone-form-model-generator.js",
-    "kfmgen": "bin/kintone-form-model-generator.js"
+    "kintone-form-model-generator": "bin/kintone-form-model-generator.js"
   },
   "main": "dist/index.js",
   "keywords": [
