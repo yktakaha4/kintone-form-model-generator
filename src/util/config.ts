@@ -4,11 +4,12 @@ const encoding = "utf-8";
 
 export interface Config {
   outDir?: string;
-  modelNaming?: "appName" | "appId" | "appCode";
+  modelNaming?: "appId" | "appCode";
   modelNameMapping?: Record<string, string>;
   modelNamePrefix?: string;
   modelNameSuffix?: string;
   modelNamingDuplicationStrategy?: "error" | "skip" | "uniquifyWithAppId";
+  ignoreAppIds?: Array<string>;
 }
 
 export const createConfig = (configPath?: PathLike) => {
@@ -24,6 +25,7 @@ export const createConfig = (configPath?: PathLike) => {
   if (config.modelNameSuffix == null) config.modelNameSuffix = "Record";
   if (!config.modelNamingDuplicationStrategy)
     config.modelNamingDuplicationStrategy = "error";
+  if (!config.ignoreAppIds) config.ignoreAppIds = [];
 
   return config;
 };

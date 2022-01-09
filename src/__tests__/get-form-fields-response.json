@@ -126,6 +126,19 @@
           "hideExpression": false,
           "unique": false,
           "defaultValue": ""
+        },
+        "文字列__1行__Table2": {
+          "type": "SINGLE_LINE_TEXT",
+          "code": "文字列__1行__Table2",
+          "label": "文字列 (1行)2",
+          "noLabel": false,
+          "required": false,
+          "minLength": "",
+          "maxLength": "",
+          "expression": "",
+          "hideExpression": false,
+          "unique": false,
+          "defaultValue": ""
         }
       }
     },

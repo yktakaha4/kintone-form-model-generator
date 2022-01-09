@@ -136,14 +136,15 @@ Specify detailed behavior by `--config` or `-c` option. (Must be `utf-8` encoded
 kintone-form-model-generator generate --config=config.json
 ```
 
-| Name                           | Type   | Default   | Description                                                   |
-| ------------------------------ | ------ | --------- | ------------------------------------------------------------- |
-| outDir                         | String | `out/`    | Output directory                                              |
-| modelNaming                    | String | `appId`   | `appId` or `appName` or `appCode`                             |
-| modelNameMapping               | Object | {}        | A dictionary object with a model name using `appId` as a key. |
-| modelNamePrefix                | String | `Kintone` | Model name prefix                                             |
-| modelNameSuffix                | String | `Record`  | Model name suffix                                             |
-| modelNamingDuplicationStrategy | String | `error`   | `error` or `skip` or `uniquifyWithAppId`                      |
+| Name                           | Type                   | Default   | Description                                                   |
+| ------------------------------ | ---------------------- | --------- | ------------------------------------------------------------- |
+| outDir                         | string                 | `out/`    | Output directory                                              |
+| modelNaming                    | string                 | `appId`   | `appId` or `appCode`                                          |
+| modelNameMapping               | Record<string, string> | {}        | A dictionary object with a model name using `appId` as a key. |
+| modelNamePrefix                | string                 | `Kintone` | Model name prefix                                             |
+| modelNameSuffix                | string                 | `Record`  | Model name suffix                                             |
+| modelNamingDuplicationStrategy | string                 | `error`   | `error` or `skip` or `uniquifyWithAppId`                      |
+| ignoreAppIds                   | Array<string>          | []        | ignore app id list                                            |
 
 Example:
 
@@ -152,10 +153,11 @@ Example:
   "outDir": "dist/",
   "modelNameMapping": {
     "1": "Customer",
-    "2": "Sales"
+    "3": "Sales"
   },
   "modelNamePrefix": "My",
-  "modelNameSuffix": "Record"
+  "modelNameSuffix": "Record",
+  "ignoreAppIds": ["2"]
 }
 ```
 

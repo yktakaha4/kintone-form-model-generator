@@ -37,20 +37,6 @@ describe("generate", () => {
       expect(result).toBe(actual);
     });
 
-    test("if modelNaming is appName", async () => {
-      config.modelNaming = "appName";
-
-      const result = await generate({
-        params: {},
-        config,
-        clientConfig,
-      });
-
-      expect(result).toContain(
-        "interface Kintone入力項目テストアプリRecord extends"
-      );
-    });
-
     test("modelNameMapping", async () => {
       config.modelNameMapping = {
         "54": "CustomName",
@@ -100,8 +86,6 @@ describe("generate", () => {
     let clientConfig: ClientConfig;
     beforeEach(() => {
       config = createConfig();
-      config.modelNaming = "appName";
-
       clientConfig = createClientConfig();
       jest.spyOn(client, "Client").mockImplementationOnce(() => {
         return {
@@ -138,7 +122,10 @@ describe("generate", () => {
     let clientConfig: ClientConfig;
     beforeEach(() => {
       config = createConfig();
-      config.modelNaming = "appName";
+      config.modelNameMapping = {
+        "54": "Duplicate",
+        "55": "Duplicate",
+      };
 
       clientConfig = createClientConfig();
       jest.spyOn(client, "Client").mockImplementationOnce(() => {
@@ -182,18 +169,45 @@ describe("generate", () => {
         clientConfig,
       });
 
+      expect(result).toContain("interface KintoneDuplicateRecord extends");
+      expect(result).toContain("interface KintoneDuplicateRecordApp55 extends");
       expect(result).toContain(
-        "interface Kintone入力項目テストアプリRecord extends"
+        "interface KintoneDuplicateRecordForParameter {"
       );
       expect(result).toContain(
-        "interface Kintone入力項目テストアプリRecordApp55 extends"
+        "interface KintoneDuplicateRecordApp55ForParameter {"
       );
+    });
+
+    test("if ignore first", async () => {
+      config.modelNamingDuplicationStrategy = "error";
+      config.ignoreAppIds = ["54", "100"];
+
+      const result = await generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      expect(result).toContain("interface KintoneDuplicateRecord extends");
       expect(result).toContain(
-        "interface Kintone入力項目テストアプリRecordForParameter {"
+        "interface KintoneDuplicateRecordForParameter {"
       );
-      expect(result).toContain(
-        "interface Kintone入力項目テストアプリRecordApp55ForParameter {"
-      );
+      expect(result).toContain("id: 55");
+      expect(result).not.toContain("id: 54");
+    });
+
+    test("if ignore all apps", async () => {
+      config.modelNamingDuplicationStrategy = "error";
+      config.ignoreAppIds = ["54", "55"];
+
+      const result = generate({
+        params: {},
+        config,
+        clientConfig,
+      });
+
+      await expect(result).rejects.toThrow();
     });
   });
 });
@@ -262,6 +276,13 @@ export interface KintoneApp54Record extends Record {
         * @type SingleLineText
         */
         "文字列__1行__Table": SingleLineText;
+        /**
+        * 文字列 (1行)2
+        * 文字列__1行__Table2
+        * SINGLE_LINE_TEXT
+        * @type SingleLineText
+        */
+        "文字列__1行__Table2": SingleLineText;
     }>;
     /**
     * ドロップダウン
@@ -406,6 +427,9 @@ export interface KintoneApp54Record extends Record {
 * @see ${dummyBaseUrl}/k/54/
 */
 export interface KintoneApp54RecordForParameter {
+    [fieldCode: string]: {
+        value: unknown;
+    };
     /**
     * グループ選択
     * GROUP_SELECT
@@ -444,6 +468,15 @@ export interface KintoneApp54RecordForParameter {
                 * @type SingleLineText
                 */
                 "文字列__1行__Table"?: {
+                    value: string;
+                };
+                /**
+                * 文字列 (1行)2
+                * 文字列__1行__Table2
+                * SINGLE_LINE_TEXT
+                * @type SingleLineText
+                */
+                "文字列__1行__Table2"?: {
                     value: string;
                 };
             };

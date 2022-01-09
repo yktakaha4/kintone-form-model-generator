@@ -312,6 +312,13 @@ export const generate = async ({
 
   // For each application
   for (const { appId, code: appCode, name: appName } of apps) {
+    if (config.ignoreAppIds?.includes(appId)) {
+      cliLogger.info(
+        `ignore: id=${appId}, name=${appName}, code=${appCode || "-"}`
+      );
+      continue;
+    }
+
     logger.info("appId:", appId);
     cliLogger.info(`app: id=${appId}, name=${appName}, code=${appCode || "-"}`);
     const { properties, revision } = await client.getFormFields({ appId });
@@ -517,8 +524,6 @@ export const generate = async ({
     let interfaceName: string;
     if (config.modelNameMapping && config.modelNameMapping[appId]) {
       interfaceName = config.modelNameMapping[appId];
-    } else if (config.modelNaming === "appName" && appName) {
-      interfaceName = appName;
     } else if (config.modelNaming === "appCode") {
       interfaceName = appCode;
     } else {
@@ -595,7 +600,31 @@ export const generate = async ({
           f.createIdentifier(interfaceNameForParameter),
           undefined,
           undefined,
-          parameterPropertyElements
+          [
+            f.createIndexSignature(
+              undefined,
+              undefined,
+              [
+                f.createParameterDeclaration(
+                  undefined,
+                  undefined,
+                  undefined,
+                  f.createIdentifier("fieldCode"),
+                  undefined,
+                  f.createTypeReferenceNode("string")
+                ),
+              ],
+              f.createTypeLiteralNode([
+                f.createPropertySignature(
+                  undefined,
+                  f.createIdentifier("value"),
+                  undefined,
+                  f.createTypeReferenceNode(f.createIdentifier("unknown"))
+                ),
+              ])
+            ),
+            ...parameterPropertyElements,
+          ]
         ),
         [
           interfaceNameForParameter,
@@ -607,6 +636,11 @@ export const generate = async ({
         ].filter((c) => c)
       )
     );
+  }
+
+  // if all ignored
+  if (interfaceNodes.length === 0) {
+    throw new Error("all apps ignored.");
   }
 
   // import definition

@@ -2,10 +2,11 @@ import "./util/logging";
 import process from "process";
 import { main } from "./main";
 import { getLogger } from "log4js";
+import { argv } from "process";
 
 const cliLogger = getLogger("cli");
 
-main()
+main(argv)
   .then(() => {
     cliLogger.info("done.");
     process.exitCode = 0;
