@@ -49,9 +49,7 @@ describe("generate", () => {
       });
 
       expect(result).toContain("interface KintoneCustomNameRecord extends");
-      expect(result).toContain(
-        "interface KintoneCustomNameRecordForParameter {"
-      );
+      expect(result).toContain("type KintoneCustomNameRecordForParameter =");
     });
 
     test("if modelNamePrefix is empty", async () => {
@@ -64,7 +62,7 @@ describe("generate", () => {
       });
 
       expect(result).toContain("interface App54Record extends");
-      expect(result).toContain("interface App54RecordForParameter {");
+      expect(result).toContain("type App54RecordForParameter =");
     });
 
     test("if modelNameSuffix is empty", async () => {
@@ -77,7 +75,7 @@ describe("generate", () => {
       });
 
       expect(result).toContain("interface KintoneApp54 extends");
-      expect(result).toContain("interface KintoneApp54ForParameter {");
+      expect(result).toContain("type KintoneApp54ForParameter =");
     });
   });
 
@@ -171,11 +169,9 @@ describe("generate", () => {
 
       expect(result).toContain("interface KintoneDuplicateRecord extends");
       expect(result).toContain("interface KintoneDuplicateRecordApp55 extends");
+      expect(result).toContain("type KintoneDuplicateRecordForParameter =");
       expect(result).toContain(
-        "interface KintoneDuplicateRecordForParameter {"
-      );
-      expect(result).toContain(
-        "interface KintoneDuplicateRecordApp55ForParameter {"
+        "type KintoneDuplicateRecordApp55ForParameter ="
       );
     });
 
@@ -190,9 +186,7 @@ describe("generate", () => {
       });
 
       expect(result).toContain("interface KintoneDuplicateRecord extends");
-      expect(result).toContain(
-        "interface KintoneDuplicateRecordForParameter {"
-      );
+      expect(result).toContain("type KintoneDuplicateRecordForParameter =");
       expect(result).toContain("id: 55");
       expect(result).not.toContain("id: 54");
     });
@@ -222,6 +216,11 @@ const actual = `
  */
 import { Record } from "@kintone/rest-api-client/lib/client/types";
 import { Calc, Category, CheckBox, CreatedTime, Creator, Date, DateTime, Dropdown, File, GroupSelect, ID, Link, Modifier, MultiLineText, MultiSelect, Number, OrganizationSelect, RadioButton, RecordNumber, Revision, RichText, SingleLineText, Status, StatusAssignee, Subtable, Time, UpdatedTime, UserSelect } from "@kintone/rest-api-client/lib/KintoneFields/types/field";
+export type ForParameterLax = {
+    [fieldCode: string]: {
+        value: unknown;
+    };
+};
 /**
 * KintoneApp54Record
 * 入力項目テストアプリ
@@ -426,10 +425,15 @@ export interface KintoneApp54Record extends Record {
 * revision: 4
 * @see ${dummyBaseUrl}/k/54/
 */
-export interface KintoneApp54RecordForParameter {
-    [fieldCode: string]: {
-        value: unknown;
-    };
+export type KintoneApp54RecordForParameter = KintoneApp54RecordForParameterStrict & ForParameterLax;
+/**
+* KintoneApp54RecordForParameterStrict
+* 入力項目テストアプリ
+* id: 54
+* revision: 4
+* @see ${dummyBaseUrl}/k/54/
+*/
+export interface KintoneApp54RecordForParameterStrict {
     /**
     * グループ選択
     * GROUP_SELECT

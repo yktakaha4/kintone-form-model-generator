@@ -307,8 +307,9 @@ export const generate = async ({
   // generate
   cliLogger.info("generating models...");
   const interfaceNames: Set<string> = new Set();
-  const interfaceNodes: Array<ts.Node> = [];
+  const nodes: Array<ts.Node> = [];
   const fieldTypes: Set<string> = new Set();
+  const forParameterLaxIdentifier = f.createIdentifier("ForParameterLax");
 
   // For each application
   for (const { appId, code: appCode, name: appName } of apps) {
@@ -562,7 +563,7 @@ export const generate = async ({
     }
     interfaceNames.add(interfaceName);
 
-    interfaceNodes.push(
+    nodes.push(
       withJSDocComments(
         f.createInterfaceDeclaration(
           undefined,
@@ -591,43 +592,47 @@ export const generate = async ({
     );
 
     // for parameter
-    const interfaceNameForParameter = `${interfaceName}ForParameter`;
-    interfaceNodes.push(
+    const typeNameForParameter = `${interfaceName}ForParameter`;
+    const interfaceNameForParameterStrict = `${typeNameForParameter}Strict`;
+    const interfaceNameForParameterStrictIdentifier = f.createIdentifier(
+      interfaceNameForParameterStrict
+    );
+    nodes.push(
+      withJSDocComments(
+        f.createTypeAliasDeclaration(
+          undefined,
+          [f.createToken(ts.SyntaxKind.ExportKeyword)],
+          f.createIdentifier(typeNameForParameter),
+          undefined,
+          f.createIntersectionTypeNode([
+            f.createTypeReferenceNode(
+              interfaceNameForParameterStrictIdentifier
+            ),
+            f.createTypeReferenceNode(forParameterLaxIdentifier),
+          ])
+        ),
+        [
+          typeNameForParameter,
+          appName,
+          `id: ${appId}`,
+          `revision: ${revision}`,
+          appCode && `code: ${appCode}`,
+          `@see ${clientConfig.baseUrl}/k/${appId}/`,
+        ].filter((c) => c)
+      )
+    );
+    nodes.push(
       withJSDocComments(
         f.createInterfaceDeclaration(
           undefined,
           [f.createToken(ts.SyntaxKind.ExportKeyword)],
-          f.createIdentifier(interfaceNameForParameter),
+          interfaceNameForParameterStrictIdentifier,
           undefined,
           undefined,
-          [
-            f.createIndexSignature(
-              undefined,
-              undefined,
-              [
-                f.createParameterDeclaration(
-                  undefined,
-                  undefined,
-                  undefined,
-                  f.createIdentifier("fieldCode"),
-                  undefined,
-                  f.createTypeReferenceNode("string")
-                ),
-              ],
-              f.createTypeLiteralNode([
-                f.createPropertySignature(
-                  undefined,
-                  f.createIdentifier("value"),
-                  undefined,
-                  f.createTypeReferenceNode(f.createIdentifier("unknown"))
-                ),
-              ])
-            ),
-            ...parameterPropertyElements,
-          ]
+          parameterPropertyElements
         ),
         [
-          interfaceNameForParameter,
+          interfaceNameForParameterStrict,
           appName,
           `id: ${appId}`,
           `revision: ${revision}`,
@@ -639,9 +644,41 @@ export const generate = async ({
   }
 
   // if all ignored
-  if (interfaceNodes.length === 0) {
+  if (nodes.length === 0) {
     throw new Error("all apps ignored.");
   }
+
+  // for Parameter
+  const forParameterLaxDeclaration = f.createTypeAliasDeclaration(
+    undefined,
+    [f.createToken(ts.SyntaxKind.ExportKeyword)],
+    forParameterLaxIdentifier,
+    undefined,
+    f.createTypeLiteralNode([
+      f.createIndexSignature(
+        undefined,
+        undefined,
+        [
+          f.createParameterDeclaration(
+            undefined,
+            undefined,
+            undefined,
+            f.createIdentifier("fieldCode"),
+            undefined,
+            f.createTypeReferenceNode("string")
+          ),
+        ],
+        f.createTypeLiteralNode([
+          f.createPropertySignature(
+            undefined,
+            f.createIdentifier("value"),
+            undefined,
+            f.createTypeReferenceNode(f.createIdentifier("unknown"))
+          ),
+        ])
+      ),
+    ])
+  );
 
   // import definition
   const importSpecifiers: Array<ts.ImportSpecifier> = [];
@@ -683,6 +720,7 @@ export const generate = async ({
   return stringer([
     ...createHeaderComment(),
     ...importDeclarations,
-    ...interfaceNodes,
+    forParameterLaxDeclaration,
+    ...nodes,
   ]);
 };
