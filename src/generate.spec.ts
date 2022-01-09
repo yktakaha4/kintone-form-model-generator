@@ -37,20 +37,6 @@ describe("generate", () => {
       expect(result).toBe(actual);
     });
 
-    test("if modelNaming is appName", async () => {
-      config.modelNaming = "appName";
-
-      const result = await generate({
-        params: {},
-        config,
-        clientConfig,
-      });
-
-      expect(result).toContain(
-        "interface Kintone入力項目テストアプリRecord extends"
-      );
-    });
-
     test("modelNameMapping", async () => {
       config.modelNameMapping = {
         "54": "CustomName",
@@ -100,8 +86,6 @@ describe("generate", () => {
     let clientConfig: ClientConfig;
     beforeEach(() => {
       config = createConfig();
-      config.modelNaming = "appName";
-
       clientConfig = createClientConfig();
       jest.spyOn(client, "Client").mockImplementationOnce(() => {
         return {
@@ -138,7 +122,10 @@ describe("generate", () => {
     let clientConfig: ClientConfig;
     beforeEach(() => {
       config = createConfig();
-      config.modelNaming = "appName";
+      config.modelNameMapping = {
+        "54": "Duplicate",
+        "55": "Duplicate",
+      };
 
       clientConfig = createClientConfig();
       jest.spyOn(client, "Client").mockImplementationOnce(() => {
@@ -182,17 +169,13 @@ describe("generate", () => {
         clientConfig,
       });
 
+      expect(result).toContain("interface KintoneDuplicateRecord extends");
+      expect(result).toContain("interface KintoneDuplicateRecordApp55 extends");
       expect(result).toContain(
-        "interface Kintone入力項目テストアプリRecord extends"
+        "interface KintoneDuplicateRecordForParameter {"
       );
       expect(result).toContain(
-        "interface Kintone入力項目テストアプリRecordApp55 extends"
-      );
-      expect(result).toContain(
-        "interface Kintone入力項目テストアプリRecordForParameter {"
-      );
-      expect(result).toContain(
-        "interface Kintone入力項目テストアプリRecordApp55ForParameter {"
+        "interface KintoneDuplicateRecordApp55ForParameter {"
       );
     });
   });

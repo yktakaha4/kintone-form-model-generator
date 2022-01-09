@@ -4,7 +4,7 @@ const encoding = "utf-8";
 
 export interface Config {
   outDir?: string;
-  modelNaming?: "appName" | "appId" | "appCode";
+  modelNaming?: "appId" | "appCode";
   modelNameMapping?: Record<string, string>;
   modelNamePrefix?: string;
   modelNameSuffix?: string;

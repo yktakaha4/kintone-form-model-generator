@@ -517,8 +517,6 @@ export const generate = async ({
     let interfaceName: string;
     if (config.modelNameMapping && config.modelNameMapping[appId]) {
       interfaceName = config.modelNameMapping[appId];
-    } else if (config.modelNaming === "appName" && appName) {
-      interfaceName = appName;
     } else if (config.modelNaming === "appCode") {
       interfaceName = appCode;
     } else {
