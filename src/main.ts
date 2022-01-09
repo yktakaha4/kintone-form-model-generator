@@ -21,7 +21,5 @@ export const main = async (argv: Array<string>) => {
     const result = await generate({ params, config, clientConfig });
 
     exportFile(result, config);
-  } else {
-    throw new Error(`not implemented: ${args._[0]}`);
   }
 };
