@@ -194,6 +194,7 @@ describe("generate", () => {
         "interface KintoneDuplicateRecordForParameter {"
       );
       expect(result).toContain("id: 55");
+      expect(result).not.toContain("id: 54");
     });
 
     test("if ignore all apps", async () => {

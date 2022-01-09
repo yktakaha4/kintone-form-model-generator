@@ -1,8 +1,7 @@
 import yargs from "yargs";
-import { hideBin } from "yargs/helpers";
 
 export const parseArgs = (argv: Array<string>) => {
-  return yargs(hideBin(argv))
+  return yargs(argv)
     .command("generate", "Generate command", (yargs) => {
       return yargs.option("app-ids", {
         alias: "a",
