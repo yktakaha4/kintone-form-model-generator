@@ -20,7 +20,7 @@ describe("stringer", () => {
 
     const singleLineTextFieldIdentifier = f.createIdentifier("SingleLineText");
     const singleLineTextFieldPropertyNameIdentifier =
-      f.createStringLiteral("singleLineText");
+      f.createStringLiteral("文字列__1行");
 
     const objectLiteralFieldPropertyNameIdentifier =
       f.createStringLiteral("objectLiteralField");
@@ -98,7 +98,7 @@ import { ID, Subtable, SingleLineText } from "@kintone/rest-api-client/lib/Kinto
 export interface InterfaceName {
     "idField": ID;
     "subTableField": Subtable<{
-        "singleLineText": SingleLineText;
+        "文字列__1行": SingleLineText;
     }>;
     "objectLiteralField": {
         "objectInnerField": string;
