@@ -1,6 +1,6 @@
 {
   "name": "kintone-form-model-generator",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Generate type definitions compatible with @kintone/rest-api-client",
   "bin": {
     "kintone-form-model-generator": "bin/kintone-form-model-generator.js"
